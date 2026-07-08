@@ -1,0 +1,133 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-content">
+    <app-header></app-header>
+
+    <main class="content-body">
+      <div class="breadcrumb">Inicio > Dependencias</div>
+      
+      <div class="section-header">
+        <h3 class="page-title">Directorio de Dependencias</h3>
+        <button class="btn-add-new" (click)="abrirModalCrear()">+ Registrar Nueva Dependencia</button>
+      </div>
+
+      <div class="filters-card">
+      <div class="filters-grid-inputs">
+        <div class="filter-group">
+          <label>Sede</label>
+          <select [(ngModel)]="filtroSede">
+            <option value="">Todas las Sedes</option>
+            <option value="Sede Alzamora Valdez">Sede Alzamora Valdez</option>
+            <option value="Sede Central">Sede Central</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Tipo de Dependencia</label>
+          <select [(ngModel)]="filtroTipo">
+            <option value="">Todos los Tipos</option>
+            <option value="Jurisdiccional">Jurisdiccional</option>
+            <option value="Administrativa">Administrativa</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Buscar por nombre</label>
+          <input type="text" [(ngModel)]="filtroNombre" placeholder="Ej. Juzgado Civil...">
+        </div>
+        <div class="filter-group">
+          <label>Nivel</label>
+          <select [(ngModel)]="filtroNivel">
+            <option value="">Todos los Niveles</option>
+            <option value="Juzgado Especializado">Juzgado Especializado</option>
+            <option value="Unidad de Servicios">Unidad de Servicios</option>
+            <option value="Juzgado de Paz">Juzgado de Paz</option>
+            <option value="Unidad de Gestión">Unidad de Gestión</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Especialidad</label>
+          <select [(ngModel)]="filtroEspecialidad">
+            <option value="">Todas</option>
+            <option value="Civil">Civil</option>
+            <option value="Paz Letrado">Paz Letrado</option>
+            <option value="-">-</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="filter-actions-container">
+        <button class="btn-aplicar-filtros" (click)="aplicarFiltros()">Aplicar Filtros</button>
+      </div>
+    </div>
+
+      <div class="table-container">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>DEPENDENCIA</th>
+              <th>SEDE</th>
+              <th>TIPO</th>
+              <th>ESPECIALIDAD</th>
+              <th>ANEXOS</th>
+              <th>ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dep of dependenciasFiltradas">
+              <td>
+                <div class="dep-title">{{ dep.nombre }}</div>
+                <div class="dep-subtitle">{{ dep.nivel }}</div>
+              </td>
+              <td>{{ dep.sede }}</td>
+              <td>
+                <span class="badge" [ngClass]="dep.tipo === 'Jurisdiccional' ? 'badge-jurisdiccional' : 'badge-administrativa'">
+                  {{ dep.tipo }}
+                </span>
+              </td>
+              <td>{{ dep.especialidad }}</td>
+              <td class="anexos-cell">📞 <strong>{{ dep.anexos }}</strong></td>
+              <td class="actions-cell">
+                <button class="action-btn view" (click)="visualizarDependencia(dep)" title="Visualizar">👁️</button>
+                <button class="action-btn edit" (click)="editarDependencia(dep)" title="Editar">✏️</button>
+                <button class="action-btn delete" (click)="eliminarDependencia(dep.id)" title="Eliminar">🗑️</button>
+              </td>
+            </tr>
+            <tr *ngIf="dependenciasFiltradas.length === 0">
+              <td colspan="6" style="text-align: center; color: #64748b; padding: 30px;">
+                No se encontraron dependencias con los filtros aplicados.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="table-pagination">
+          <span>Mostrando 1-{{ dependenciasFiltradas.length }} de {{ dependenciasFiltradas.length }} registros</span>
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon">📊</div>
+          <div class="metric-data">
+            <span class="number">{{ totalJuzgados }}</span>
+            <span class="label">Juzgados Activos</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🏢</div>
+          <div class="metric-data">
+            <span class="number">{{ totalUnidades }}</span>
+            <span class="label">Unidades Administrativas</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">👥</div>
+          <div class="metric-data">
+            <span class="number">{{ totalAnexos }}</span>
+            <span class="label">Anexos Registrados</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
