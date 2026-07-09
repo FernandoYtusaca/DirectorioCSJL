@@ -10,7 +10,7 @@ export class HeaderComponent {
 
   onProfileClick() {
     console.log('Click en el perfil completo del administrador');
-    // Aquí podrás abrir un menú desplegable o ir a la configuración del perfil más adelante
+    // agregar un menú desplegable para la configuracion del perfil
   }
 
 }
