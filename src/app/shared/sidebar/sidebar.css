@@ -20,14 +20,3 @@
   text-decoration: none; color: #1e293b; font-weight: 500; border-radius: 8px;
 }
 .menu-item.active { background: #e0ebff; color: #0b46be; }
-
-.sidebar-footer { display: flex; flex-direction: column; gap: 16px; }
-.btn-primary-action { 
-  background: #0b46be; color: white; border: none; 
-  padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer;
-}
-
-.user-profile-summary { display: flex; align-items: center; gap: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;}
-.avatar { width: 36px; height: 36px; border-radius: 50%; background: #cbd5e1; }
-.user-info .name { display: block; font-size: 13px; font-weight: bold; }
-.user-info .role { font-size: 11px; color: #64748b; }

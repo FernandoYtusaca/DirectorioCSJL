@@ -6,4 +6,13 @@ import { Component } from '@angular/core';
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  constructor() {
+    console.log('Header cargado');
+  }
+  
+  abrirPerfil(): void {
+  console.log('Perfil seleccionado');
+  // Aquí puedes abrir un menú, un drawer o navegar
+}
+}
