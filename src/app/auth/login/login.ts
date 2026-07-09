@@ -14,8 +14,12 @@ import Swal from 'sweetalert2';
 export class LoginComponent {
   private router = inject(Router);
 
+  // Validador personalizado que permite ñ
+  emailConN = /^[a-zA-Z0-9ñÑ._%+-]+@[a-zA-Z0-9ñÑ.-]+\.[a-zA-Z]{2,}$/;
+
+
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.pattern(this.emailConN)]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)])
   });
 
