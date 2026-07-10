@@ -6,4 +6,11 @@ import { Component } from '@angular/core';
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+
+  onProfileClick() {
+    console.log('Click en el perfil completo del administrador');
+    // agregar un menú desplegable para la configuracion del perfil
+  }
+
+}
