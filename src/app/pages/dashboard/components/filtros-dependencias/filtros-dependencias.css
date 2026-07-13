@@ -1,0 +1,59 @@
+.filters-card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 25px;
+}
+
+.filters-grid-inputs {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .filters-grid-inputs {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .filter-group:nth-child(4), .filter-group:nth-child(5) {
+    grid-column: span 1;
+  }
+}
+
+.filter-actions-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.btn-aplicar-filtros {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  border: none;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-aplicar-filtros:hover {
+  background-color: #1e40af;
+}
+
+.btn-aplicar-filtros:active {
+  transform: scale(0.98);
+}
+
+.filter-group { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.filter-group label { font-size: 12px; font-weight: 600; color: #64748b; }
+.filter-group select, .filter-group input { padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; background: #f8fafc; font-size: 14px; }

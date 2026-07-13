@@ -1,1 +1,47 @@
-<p>filtros-dependencias works!</p>
+<div class="filters-card">
+  <div class="filters-grid-inputs">
+    <div class="filter-group">
+      <label>Sede</label>
+      <select [(ngModel)]="filtroSede">
+        <option value="">Todas las Sedes</option>
+        <option value="Sede Alzamora Valdez">Sede Alzamora Valdez</option>
+        <option value="Sede Central">Sede Central</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Tipo de Dependencia</label>
+      <select [(ngModel)]="filtroTipo">
+        <option value="">Todos los Tipos</option>
+        <option value="Jurisdiccional">Jurisdiccional</option>
+        <option value="Administrativa">Administrativa</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Buscar por nombre</label>
+      <input type="text" [(ngModel)]="filtroNombre" placeholder="Ej. Juzgado Civil...">
+    </div>
+    <div class="filter-group">
+      <label>Nivel</label>
+      <select [(ngModel)]="filtroNivel">
+        <option value="">Todos los Niveles</option>
+        <option value="Juzgado Especializado">Juzgado Especializado</option>
+        <option value="Unidad de Servicios">Unidad de Servicios</option>
+        <option value="Juzgado de Paz">Juzgado de Paz</option>
+        <option value="Unidad de Gestión">Unidad de Gestión</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Especialidad</label>
+      <select [(ngModel)]="filtroEspecialidad">
+        <option value="">Todas</option>
+        <option value="Civil">Civil</option>
+        <option value="Paz Letrado">Paz Letrado</option>
+        <option value="-">-</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="filter-actions-container">
+    <button class="btn-aplicar-filtros" (click)="aplicarFiltros()">Aplicar Filtros</button>
+  </div>
+</div>

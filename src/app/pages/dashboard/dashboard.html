@@ -6,136 +6,22 @@
 
     <main class="content-body">
       <div class="breadcrumb">Inicio > Dependencias</div>
-      
+
       <div class="section-header">
         <h3 class="page-title">Directorio de Dependencias</h3>
         <button class="btn-add-new" (click)="abrirModalCrear()">+ Registrar Nueva Dependencia</button>
       </div>
 
-      <div class="filters-card">
-      <div class="filters-grid-inputs">
-        <div class="filter-group">
-          <label>Sede</label>
-          <select [(ngModel)]="filtroSede">
-            <option value="">Todas las Sedes</option>
-            <option value="Sede Alzamora Valdez">Sede Alzamora Valdez</option>
-            <option value="Sede Central">Sede Central</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <label>Tipo de Dependencia</label>
-          <select [(ngModel)]="filtroTipo">
-            <option value="">Todos los Tipos</option>
-            <option value="Jurisdiccional">Jurisdiccional</option>
-            <option value="Administrativa">Administrativa</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <label>Buscar por nombre</label>
-          <input type="text" [(ngModel)]="filtroNombre" placeholder="Ej. Juzgado Civil...">
-        </div>
-        <div class="filter-group">
-          <label>Nivel</label>
-          <select [(ngModel)]="filtroNivel">
-            <option value="">Todos los Niveles</option>
-            <option value="Juzgado Especializado">Juzgado Especializado</option>
-            <option value="Unidad de Servicios">Unidad de Servicios</option>
-            <option value="Juzgado de Paz">Juzgado de Paz</option>
-            <option value="Unidad de Gestión">Unidad de Gestión</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <label>Especialidad</label>
-          <select [(ngModel)]="filtroEspecialidad">
-            <option value="">Todas</option>
-            <option value="Civil">Civil</option>
-            <option value="Paz Letrado">Paz Letrado</option>
-            <option value="-">-</option>
-          </select>
-        </div>
-      </div>
-      
-      <div class="filter-actions-container">
-        <button class="btn-aplicar-filtros" (click)="aplicarFiltros()">Aplicar Filtros</button>
-      </div>
-    </div>
+      <app-filtros-dependencias (aplicar)="onAplicarFiltros($event)"></app-filtros-dependencias>
 
-      <div class="table-container">
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th>DEPENDENCIA</th>
-              <th>SEDE</th>
-              <th>TIPO</th>
-              <th>ESPECIALIDAD</th>
-              <th>ANEXOS</th>
-              <th>ACCIONES</th>
-            </tr>
-          </thead>
-          <tbody>
-                <tr *ngFor="let dep of dependenciasFiltradas">
-                  <td>
-                    <div class="dep-title">{{ dep.nombre }}</div>
-                    <div class="dep-subtitle">{{ dep.nivel }}</div>
-                  </td>
-                  <td>{{ dep.sede }}</td>
-                  <td>
-                    <span class="badge" [ngClass]="dep.tipo === 'Jurisdiccional' ? 'badge-jurisdiccional' : 'badge-administrativa'">
-                      {{ dep.tipo }}
-                    </span>
-                  </td>
-                  <td>{{ dep.especialidad }}</td>
-                  <td class="anexos-cell">📞 <strong>{{ dep.anexos }}</strong></td>
-                  <td class="actions-cell">
-                    <button class="action-btn-img view-icon" (click)="visualizarDependencia(dep)" title="Visualizar">
-                      <svg viewBox="0 0 24 24" width="18" height="18" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                    </button>
+      <app-tabla-dependencias
+        [dependencias]="dependenciasFiltradas"
+        (ver)="onVer($event)"
+        (editar)="onEditar($event)"
+        (eliminar)="onEliminar($event)">
+      </app-tabla-dependencias>
 
-                    <button class="action-btn-img edit-icon" (click)="editarDependencia(dep)" title="Editar">
-                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="#0b46be" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                    </button>
-
-                    <button class="action-btn-img delete-icon" (click)="eliminarDependencia(dep.id)" title="Eliminar">
-                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                    </button>
-                  </td>
-                </tr>
-                <tr *ngIf="dependenciasFiltradas.length === 0">
-                  <td colspan="6" style="text-align: center; color: #64748b; padding: 24px;">
-                    No se encontraron registros con los filtros seleccionados.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-        
-        <div class="table-pagination">
-          <span>Mostrando 1-{{ dependenciasFiltradas.length }} de {{ dependenciasFiltradas.length }} registros</span>
-        </div>
-      </div>
-
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-icon">📊</div>
-          <div class="metric-data">
-            <span class="number">{{ totalJuzgados }}</span>
-            <span class="label">Juzgados Activos</span>
-          </div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon">🏢</div>
-          <div class="metric-data">
-            <span class="number">{{ totalUnidades }}</span>
-            <span class="label">Unidades Administrativas</span>
-          </div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon">👥</div>
-          <div class="metric-data">
-            <span class="number">{{ totalAnexos }}</span>
-            <span class="label">Anexos Registrados</span>
-          </div>
-        </div>
-      </div>
+      <app-metricas-dependencias [metricas]="metricas"></app-metricas-dependencias>
     </main>
   </div>
 </div>
