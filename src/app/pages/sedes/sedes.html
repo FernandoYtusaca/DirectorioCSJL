@@ -1,1 +1,97 @@
-<p>sedes works!</p>
+<div class="sedes-container">
+    
+    <div *ngIf="cargando" class="loading">
+        Cargando sedes...
+    </div>
+
+    <div class="barra-superior">
+        <button class="btn-nuevo" (click)="nuevaSede()">
+            + Nueva Sede
+        </button>
+    </div>
+
+    <h2>Gestión de Sedes</h2>
+    
+    <!-- Selector -->
+    <div class="campo">
+        <label>Sede Judicial</label>
+        <select [(ngModel)]="sedeSeleccionada" (change)="seleccionarSede()">
+            <option *ngFor="let sede of sedes" [ngValue]="sede">
+                {{ sede.nombre }}
+            </option>
+        </select>
+
+        <!-- Panel de información -->
+        <div *ngIf="sedeSeleccionada" class="panel">
+            <div class="panel-header">
+                <h2>Información de la Sede</h2>
+                <span class="estado" [class.estado-activo]="sedeSeleccionada.activo === 'S'" [class.estado-inactivo]="sedeSeleccionada.activo !== 'S'">
+                    {{ sedeSeleccionada.activo === 'S' ? 'ACTIVA' : 'INACTIVA' }}
+                </span>
+            </div>
+            
+            <div class="panel-body">
+                <div class="campo-info">
+                    <label>Nombre</label>
+                    <input type="text" [(ngModel)]="sedeEditando.nombre" [readonly]="!modoEdicion">
+                </div>
+                
+                <div class="campo-info">
+                    <label>Dirección</label>
+                    <input type="text" [(ngModel)]="sedeEditando.direccion" [readonly]="!modoEdicion">
+                </div>
+                
+                <div class="campo-info">
+                    <label>Teléfono</label>
+                    <input type="text" [(ngModel)]="sedeEditando.telefono" [readonly]="!modoEdicion">
+                </div>
+                
+                <div class="campo-info">
+                    <label>Distrito</label>
+                    <select [(ngModel)]="sedeEditando.distritoId" [disabled]="!modoEdicion">
+                        <option *ngFor="let distrito of distritos" [value]="distrito.id">
+                            {{ distrito.nombre }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="campo-info">
+                    <label>Mapa</label>
+                    <textarea rows="3" [(ngModel)]="sedeEditando.mapa" [readonly]="!modoEdicion">
+                    </textarea>
+                </div>
+
+                <div class="campo-info">
+                    <label>Fecha de creación</label>
+                    <input type="date" [(ngModel)]="sedeEditando.fechaCreacion" [readonly]="true">
+                </div>
+
+                <div class="campo-info">
+                    <label>Hora de creación</label>
+                    <input type="time" [(ngModel)]="sedeEditando.horaCreacion" [readonly]="true">
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="acciones">
+            <button class="btn-editar" *ngIf="!modoEdicion" (click)="editar()">
+                ✏️ Editar
+            </button>
+            <button class="btn-guardar" *ngIf="modoEdicion" (click)="guardar()" [disabled]="guardando">
+                {{ guardando ? 'Guardando...' : '💾 Guardar' }}
+            </button>
+            
+            <button class="btn-cancelar" *ngIf="modoEdicion" (click)="cancelar()">
+                ❌ Cancelar
+            </button>
+
+            <button class="btn-estado" (click)="cambiarEstado()">
+                {{ sedeSeleccionada?.activo === 'S'? '🔴 Deshabilitar' : '🟢 Habilitar' }}
+            </button>
+
+        </div>
+    </div>
+
+</div>
