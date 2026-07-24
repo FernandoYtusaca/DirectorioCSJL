@@ -1,0 +1,15 @@
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Editar Dependencia</h2>
+    </div>
+
+      <app-formulario-dependencia
+        [dependencia] = "dependencia"
+        (guardar) = "guardarCambios($event)"
+        (cancelar) = "cerrarModal()">
+      </app-formulario-dependencia>
+
+  </div>
+
+</div>

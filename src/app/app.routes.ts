@@ -1,8 +1,37 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './auth/login/login'; // Asegúrate de que la ruta apunte bien a tu archivo
-import { DashboardComponent } from './pages/dashboard/dashboard';
+
+import { Sedes } from './pages/sedes/sedes';
+import { Anexos } from './pages/anexos/anexos';
+import { Login } from './pages/login/login';
+import { Dependencias } from './pages/dependencias/dependencias';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent }, 
-  { path: 'dashboard', component: DashboardComponent}
+    //Cuando  el usuario ingrese a la Url principal
+    {
+        path: '',
+        redirectTo: 'dependencias',
+        pathMatch: 'full',
+    },
+
+    //RUTAS
+    {
+        path: 'dependencias',
+        component: Dependencias
+    },
+
+    {
+        path: 'sedes',
+        component: Sedes
+    },
+
+    {
+        path: 'anexos',
+        component: Anexos
+    },
+
+    {
+        path: 'login',
+        component: Login
+    }
 ];
+
