@@ -121,19 +121,23 @@ export class Dependencias implements OnInit{
     abrirModal(dependencia: Dependencia){
       this.dependenciaSeleccionada = dependencia;
       this.mostrarModal = true;
+      document.body.style.overflow = 'hidden';
     }
 
     cerrarModal(){
       this.mostrarModal = false;
+      document.body.style.overflow = '';
     }
 
     abrirEditar(dep: Dependencia){
       this.dependenciaEditar ={...dep};
       this.mostrarModalEditar = true;
+      document.body.style.overflow = 'hidden';
     }
 
     cerrarEditar(){
       this.mostrarModalEditar = false;
+      document.body.style.overflow = '';
     }
 
     guardarEdicion(dep: Dependencia){

@@ -98,10 +98,23 @@ export class Sedes implements OnInit {
   
   cancelar(): void {
     this.modoEdicion = false;
+    if (this.sedeSeleccionada) {
+      this.sedeEditando = { ...this.sedeSeleccionada };
+    }
   }
   
   guardar(): void {
     this.guardando = true; // Comienza la operación de guardado
+    if (!this.sedeEditando.nombre.trim()) {
+      this.guardando = false;
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campo obligatorio',
+        text: 'Debe ingresar el nombre de la sede.'
+      });
+      return;
+    }
+    
     if (this.sedeEditando.id === 0) {
       this.sedeService
       .guardar(this.sedeEditando)
@@ -117,10 +130,21 @@ export class Sedes implements OnInit {
             title:'Correcto',
             text:'La sede fue registrada correctamente.'
           });
+        },
+
+        error: (err) => {
+          this.guardando = false;
+          console.error(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No fue posible registrar la sede.'
+          });
         }
 
       });
-    } else {
+    }
+    else {
       this.sedeService
       .actualizar(
         this.sedeEditando.id,
@@ -141,7 +165,18 @@ export class Sedes implements OnInit {
             title: 'Correcto',
             text: 'La sede fue actualizada correctamente.'
           });
+        },
+
+        error: (err) => {
+          this.guardando = false;
+          console.error(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No fue posible actualizar la sede.'
+          });
         }
+
       });
     }
   }
@@ -156,14 +191,20 @@ export class Sedes implements OnInit {
       next: (sede) => {
         this.sedeSeleccionada = sede;
         this.sedeEditando = { ...sede };
-      },      
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Correcto',
+        text: 'El estado de la sede fue actualizado.'
+        });
+
+      },
       error: (err) => {
-        this.guardando = false;   // Finalizó con error
         console.error(err);
         Swal.fire({
           icon:'error',
           title:'Error',
-          text:'No fue posible guardar la sede.'
+          text:'No fue posible actualizar el estado de la sede.'
         });
       }
     });

@@ -5,28 +5,35 @@
     </div>
 
     <div class="barra-superior">
-        <button class="btn-nuevo" (click)="nuevaSede()">
+        <button class="btn-nuevo" (click)="nuevaSede()" [disabled]="modoEdicion">
             + Nueva Sede
         </button>
     </div>
 
-    <h2>Gestión de Sedes</h2>
+    <div class="cabecera">
+        <div>
+            <h1>Gestión de Sedes Judiciales</h1>
+            <p class="subtitulo">
+                Administración de sedes del sistema.
+            </p>
+        </div>
+    </div>
     
     <!-- Selector -->
     <div class="campo">
         <label>Sede Judicial</label>
-        <select [(ngModel)]="sedeSeleccionada" (change)="seleccionarSede()">
+        <select [(ngModel)]="sedeSeleccionada" (change)="seleccionarSede()" [disabled]="modoEdicion">
             <option *ngFor="let sede of sedes" [ngValue]="sede">
                 {{ sede.nombre }}
             </option>
         </select>
 
         <!-- Panel de información -->
-        <div *ngIf="sedeSeleccionada" class="panel">
+        <div *ngIf="sedeSeleccionada || modoEdicion" class="panel">
             <div class="panel-header">
                 <h2>Información de la Sede</h2>
-                <span class="estado" [class.estado-activo]="sedeSeleccionada.activo === 'S'" [class.estado-inactivo]="sedeSeleccionada.activo !== 'S'">
-                    {{ sedeSeleccionada.activo === 'S' ? 'ACTIVA' : 'INACTIVA' }}
+                <span class="estado" [class.estado-activo]="sedeEditando.activo === 'S'" [class.estado-inactivo]="sedeEditando.activo !== 'S'">
+                    {{ sedeEditando.activo === 'S' ? 'ACTIVA' : 'INACTIVA' }}
                 </span>
             </div>
             
@@ -49,7 +56,7 @@
                 <div class="campo-info">
                     <label>Distrito</label>
                     <select [(ngModel)]="sedeEditando.distritoId" [disabled]="!modoEdicion">
-                        <option *ngFor="let distrito of distritos" [value]="distrito.id">
+                        <option *ngFor="let distrito of distritos" [ngValue]="distrito.id">
                             {{ distrito.nombre }}
                         </option>
                     </select>
@@ -57,8 +64,7 @@
 
                 <div class="campo-info">
                     <label>Mapa</label>
-                    <textarea rows="3" [(ngModel)]="sedeEditando.mapa" [readonly]="!modoEdicion">
-                    </textarea>
+                    <textarea rows="3" [(ngModel)]="sedeEditando.mapa" [readonly]="!modoEdicion"></textarea>
                 </div>
 
                 <div class="campo-info">
@@ -76,7 +82,7 @@
 
 
         <div class="acciones">
-            <button class="btn-editar" *ngIf="!modoEdicion" (click)="editar()">
+            <button class="btn-editar" *ngIf="!modoEdicion && sedeSeleccionada" (click)="editar()">
                 ✏️ Editar
             </button>
             <button class="btn-guardar" *ngIf="modoEdicion" (click)="guardar()" [disabled]="guardando">
@@ -87,8 +93,8 @@
                 ❌ Cancelar
             </button>
 
-            <button class="btn-estado" (click)="cambiarEstado()">
-                {{ sedeSeleccionada?.activo === 'S'? '🔴 Deshabilitar' : '🟢 Habilitar' }}
+            <button class="btn-estado"*ngIf="sedeSeleccionada"  [disabled]="modoEdicion" (click)="cambiarEstado()">
+                {{ sedeEditando.activo === 'S'? '🔴 Deshabilitar' : '🟢 Habilitar' }}
             </button>
 
         </div>
