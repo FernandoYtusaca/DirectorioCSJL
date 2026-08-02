@@ -33,6 +33,32 @@
         {{ dependencia.activo === 'S' ? 'Activo' : 'Inactivo' }}
       </p>
 
+      <h3>Anexos Telefónicos</h3>
+
+      @if(anexos.length > 0){
+
+        <div class="lista-anexos">
+
+          @for(anexo of anexos; track anexo.id){
+
+            <span class="anexo-item">
+              {{ anexo.numero }}
+            </span>
+
+          }
+
+        </div>
+
+      }
+      @else{
+
+        <p class="sin-anexos">
+          No existen anexos registrados para esta dependencia.
+        </p>
+
+      }
+
+
       <p><strong>Fecha creación:</strong> {{ dependencia.fechaCreacion }}</p>
 
       <p><strong>Hora creación:</strong> {{ dependencia.horaCreacion }}</p>

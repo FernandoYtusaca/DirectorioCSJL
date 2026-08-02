@@ -6,11 +6,12 @@ import { DependenciaService } from '../../services/dependencia.service';
 import { FiltrosDependencias } from '../../filtros/filtros-dependencias/filtros-dependencias';
 import { ModalDetalleDependencia } from './modales/modal-detalle-dependencia/modal-detalle-dependencia';
 import { ModadlEditarDependencia } from './modales/modal-editar-dependencia/modal-editar-dependencia';
+import { ModalRegistrarDependencia } from './modales/modal-registrar-dependencia/modal-registrar-dependencia';
 
 
 @Component({
   selector: 'app-dependencias',
-  imports: [CommonModule, FiltrosDependencias, ModalDetalleDependencia, ModadlEditarDependencia], 
+  imports: [CommonModule, FiltrosDependencias, ModalDetalleDependencia, ModadlEditarDependencia, ModalRegistrarDependencia], 
   templateUrl: './dependencias.html',
   styleUrl: './dependencias.css',
 })
@@ -28,6 +29,9 @@ export class Dependencias implements OnInit{
 
   mostrarModalEditar = false;
   dependenciaEditar!: Dependencia;
+
+  mostrarModalRegistrar = false;
+  nuevaDependencia!: Dependencia;
   
 
   constructor(
@@ -57,7 +61,6 @@ export class Dependencias implements OnInit{
   }
 
   recibirFiltros(filtros: any){
-     console.log(filtros);
 
       this.dependencias = this.dependenciasOriginales.filter(dep => {
         let coincide = true;
@@ -121,23 +124,19 @@ export class Dependencias implements OnInit{
     abrirModal(dependencia: Dependencia){
       this.dependenciaSeleccionada = dependencia;
       this.mostrarModal = true;
-      document.body.style.overflow = 'hidden';
     }
 
     cerrarModal(){
       this.mostrarModal = false;
-      document.body.style.overflow = '';
     }
 
     abrirEditar(dep: Dependencia){
       this.dependenciaEditar ={...dep};
       this.mostrarModalEditar = true;
-      document.body.style.overflow = 'hidden';
     }
 
     cerrarEditar(){
       this.mostrarModalEditar = false;
-      document.body.style.overflow = '';
     }
 
     guardarEdicion(dep: Dependencia){
@@ -149,12 +148,62 @@ export class Dependencias implements OnInit{
           this.dependencias[index] = data;
         }
         const indexOriginal = this.dependenciasOriginales.findIndex(d => d.id === data.id);
-        if(indexOriginal ! == -1){
+        if(indexOriginal !== -1){
           this.dependenciasOriginales[indexOriginal] = data;
         }
 
         this.cerrarEditar();
       })
+    }
+
+    //Registrar
+    abrirRegistrar() {
+
+      this.nuevaDependencia = {
+        id: 0,
+        nombre: '',
+        piso: '',
+
+        sedeJudicialId: undefined as any,
+        sedeJudicialNombre: '',
+
+        tipoDependenciaId: undefined as any,
+        tipoDependenciaNombre: '',
+
+        nivelJurisdiccionalId: undefined as any,
+        nivelJurisdiccionalNombre: '',
+
+        especialidadId: undefined,
+        especialidadNombre: '',
+
+        unidadAdministrativaId: undefined,
+        unidadAdministrativaNombre: '',
+
+        coordinacionId: undefined,
+        coordinacionNombre: '',
+
+        activo: 'S',
+        fechaCreacion: '',
+        horaCreacion: ''
+
+      };
+
+      this.mostrarModalRegistrar = true;
+
+    }
+
+
+    cerrarRegistrar(){
+      this.mostrarModalRegistrar =  false;
+    }
+
+    guardarNuevaDependencia(dep: Dependencia) {
+      this.dependenciaService.guardar(dep)
+        .subscribe(data => {
+          this.dependencias.push(data);
+          this.dependenciasOriginales.push(data);
+          this.cerrarRegistrar();
+        });
     }
 
 }

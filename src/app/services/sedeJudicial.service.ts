@@ -22,20 +22,4 @@ export class SedeJudicialService {
     return this.http.get<SedeJudicial[]>(`${this.apiUrl}/activos`);
   }
 
-  obtenerPorId(id: number): Observable<SedeJudicial> {
-    return this.http.get<SedeJudicial>(`${this.apiUrl}/${id}`);
-  }
-  
-  guardar(sede: SedeJudicial): Observable<SedeJudicial> {
-    return this.http.post<SedeJudicial>(this.apiUrl, sede);
-  }
-  
-  actualizar(id: number, sede: SedeJudicial): Observable<SedeJudicial> {
-    return this.http.put<SedeJudicial>(`${this.apiUrl}/${id}`, sede);
-  }
-  
-  cambiarEstado(id: number): Observable<SedeJudicial> {
-    return this.http.patch<SedeJudicial>(`${this.apiUrl}/${id}/estado`, {});
-  }
-
 }

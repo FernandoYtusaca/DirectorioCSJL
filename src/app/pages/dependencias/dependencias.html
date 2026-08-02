@@ -5,6 +5,13 @@
   </app-filtros-dependencias>
   <br>
 
+  <div class="table-actions">
+    <button class="=btn-agregar" (click)="abrirRegistrar()">
+      Agregar Dependencia
+    </button>
+  </div>
+  <br>
+
   <table class="custom-table">
 
     <thead>
@@ -162,6 +169,14 @@
       (cerrar)= "cerrarEditar()"
       (guardar)="guardarEdicion($event)">
     </app-modadl-editar-dependencia>
+  }
+
+  @if(mostrarModalRegistrar){
+    <app-modal-registrar-dependencia
+      (cerrar)="cerrarRegistrar()"
+      (guardar)="guardarNuevaDependencia($event)">
+
+    </app-modal-registrar-dependencia>
   }
 
 

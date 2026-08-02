@@ -1,0 +1,14 @@
+<div class="modal-overlay">
+    <div class="modal">
+        <h2>Registrar Dependencia</h2>
+
+        <app-formulario-dependencia
+            [dependencia]="nuevaDependencia"
+            (guardar)="guardarDependencia($event)"
+            (cancelar)="cerrarModal()">
+
+        </app-formulario-dependencia>
+
+    </div>
+
+</div>
