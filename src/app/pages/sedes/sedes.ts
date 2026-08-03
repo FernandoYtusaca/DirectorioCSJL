@@ -21,6 +21,8 @@ export class SedesComponent implements OnInit {
   sedes: SedeJudicial[] = [];
   sedesOriginales: SedeJudicial[] = [];
 
+  cargando = false;
+
   mostrarFormulario = false;
 
   modoFormulario: 'crear' | 'editar' = 'crear';
@@ -40,12 +42,14 @@ export class SedesComponent implements OnInit {
 
   cargarSedes(): void {
 
+    this.cargando = true;
     this.sedeService.listar()
       .subscribe({
         next: (data) => {
 
           this.sedes = data;
           this.sedesOriginales = [...data];
+          this.cargando = false;
 
         },
         error: (error) => {
@@ -53,6 +57,7 @@ export class SedesComponent implements OnInit {
             'Error cargando sedes:',
             error
           );
+          this.cargando = false;
         }
       });
 
@@ -93,11 +98,8 @@ export class SedesComponent implements OnInit {
 
 
   guardarSede(): void {
-
-    this.cerrarFormulario();
-
     this.cargarSedes();
-
+    this.cerrarFormulario();
   }
 
 
@@ -148,7 +150,7 @@ export class SedesComponent implements OnInit {
     this.sedeService
         .cambiarEstado(
             sede.id,
-            nuevoEstado
+            sede.activo !== 'A'
         )
         .subscribe({
 

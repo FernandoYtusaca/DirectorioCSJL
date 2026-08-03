@@ -74,12 +74,12 @@
                             Editar
                         </button>
                         <button class="btn-estado" (click)="cambiarEstado(sede)">
-                            {{ sede.activo ? 'Desactivar': 'Activar'}}
+                            {{ sede.activo === 'A' ? 'Desactivar': 'Activar'}}
                         </button>
                     </td>
                 </tr>
 
-                <tr *ngIf="sedes.length === 0">
+                <tr *ngIf="!cargando && sedes.length === 0">
                     <td colspan="5" class="sin-datos">
                         No existen sedes registradas
                     </td>
