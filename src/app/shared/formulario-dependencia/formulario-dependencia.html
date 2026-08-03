@@ -1,0 +1,277 @@
+<div class="formulario">
+
+
+  <!-- NOMBRE -->
+  <div class="campo">
+
+    <label>Nombre de dependencia</label>
+
+    <input
+      type="text"
+      [(ngModel)]="dependencia.nombre">
+
+  </div>
+
+
+
+  <!-- PISO -->
+  <div class="campo">
+
+    <label>Piso</label>
+
+    <input
+      type="text"
+      [(ngModel)]="dependencia.piso">
+
+  </div>
+
+
+
+  <!-- SEDE -->
+  <div class="campo">
+
+    <label>Sede Judicial</label>
+
+    <select
+      [(ngModel)]="dependencia.sedeJudicialId">
+
+
+      <option [ngValue]="undefined">
+        Seleccione sede
+      </option>
+
+
+      @for(sede of sedes; track sede.id){
+
+        <option [ngValue]="sede.id">
+
+          {{sede.nombre}}
+
+        </option>
+
+      }
+
+
+    </select>
+
+  </div>
+
+
+
+
+  <!-- TIPO DEPENDENCIA -->
+  <div class="campo">
+
+    <label>Tipo de Dependencia</label>
+
+
+    <select
+      [(ngModel)]="dependencia.tipoDependenciaId"
+      (change)="cambioTipo()">
+
+
+      <option [ngValue]="undefined">
+        Seleccione tipo
+      </option>
+
+
+      @for(tipo of tipos; track tipo.id){
+
+        <option [ngValue]="tipo.id">
+
+          {{tipo.nombre}}
+
+        </option>
+
+      }
+
+
+    </select>
+
+
+  </div>
+
+
+
+
+
+  <!-- JURISDICCIONAL -->
+
+  @if(esJurisdiccional){
+
+
+    <div class="campo">
+
+      <label>Nivel Jurisdiccional</label>
+
+
+      <select
+        [(ngModel)]="dependencia.nivelJurisdiccionalId" (change)="cambioNivel()">
+
+
+        <option [ngValue]="undefined">
+          Seleccione nivel
+        </option>
+
+
+        @for(nivel of niveles; track nivel.id){
+
+          <option [ngValue]="nivel.id">
+
+            {{nivel.nombre}}
+
+          </option>
+
+        }
+
+
+      </select>
+
+
+    </div>
+
+
+
+
+    <div class="campo">
+
+      <label>Especialidad</label>
+
+
+      <select
+        [(ngModel)]="dependencia.especialidadId">
+
+
+        <option [ngValue]="undefined">
+          Seleccione especialidad
+        </option>
+
+
+        @for(especialidad of especialidades; track especialidad.id){
+
+          <option [ngValue]="especialidad.id">
+
+            {{especialidad.nombre}}
+
+          </option>
+
+        }
+
+
+      </select>
+
+
+    </div>
+
+
+  }
+
+
+
+
+
+
+
+  <!-- ADMINISTRATIVA -->
+
+  @if(esAdministrativa){
+
+
+    <div class="campo">
+
+      <label>Unidad Administrativa</label>
+
+
+      <select
+        [(ngModel)]="dependencia.unidadAdministrativaId" (change)="cambioUnidad()">
+
+
+        <option [ngValue]="undefined">
+          Seleccione unidad
+        </option>
+
+
+        @for(unidad of unidades; track unidad.id){
+
+          <option [ngValue]="unidad.id">
+
+            {{unidad.nombre}}
+
+          </option>
+
+        }
+
+
+      </select>
+
+
+    </div>
+
+
+
+
+
+    <div class="campo">
+
+      <label>Coordinación</label>
+
+
+      <select
+        [(ngModel)]="dependencia.coordinacionId">
+
+
+        <option [ngValue]="undefined">
+          Seleccione coordinación
+        </option>
+
+
+        @for(coordinacion of coordinaciones; track coordinacion.id){
+
+          <option [ngValue]="coordinacion.id">
+
+            {{coordinacion.nombre}}
+
+          </option>
+
+        }
+
+
+      </select>
+
+
+    </div>
+
+
+  }
+
+
+
+
+
+  <div class="acciones">
+
+
+    <button
+      class="btn-cancelar"
+      (click)="cancelarEdicion()">
+
+      Cancelar
+
+    </button>
+
+
+
+    <button
+      class="btn-guardar"
+      (click)="guardarCambios()">
+
+      Guardar cambios
+
+    </button>
+
+
+  </div>
+
+
+</div>
+

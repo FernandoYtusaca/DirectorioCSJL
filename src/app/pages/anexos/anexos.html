@@ -1,0 +1,117 @@
+<app-filtros-anexos
+(filtrar)="recibirFiltros($event)">
+</app-filtros-anexos>
+
+<div class="table-container">
+
+  @if(rol === 'ADMINISTRADOR') {
+  <div class="header-actions">
+    <button class="btn-agregar"
+            (click)="abrirRegistrar()">
+      ➕ Agregar Anexo
+    </button>
+  </div>
+  }
+
+  <br>
+
+  @for(grupo of dependenciasAnexos; track grupo.dependenciaNombre){
+    <div class="dependencia-card">
+
+      <div class="dependencia-header">
+        <h3>
+          {{ grupo.dependenciaNombre }}
+        </h3>
+      </div>
+
+      <table class="anexo-table">
+        <thead>
+          <tr>
+            <th>NÚMERO ANEXO</th>
+            <th>ESTADO</th>
+            <th>ACCIONES</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for(anexo of grupo.anexos; track anexo.id){
+            <tr>
+              <td>
+                {{ anexo.numero }}
+              </td>
+
+              <td>
+                <span
+                  class="estado"
+                  [ngClass]="anexo.activo === 'S'
+                  ? 'estado-activo'
+                  : 'estado-inactivo'">
+
+                  {{ anexo.activo === 'S'
+                    ? 'Activo'
+                    : 'Inactivo' }}
+                </span>
+              </td>
+
+              <td class="actions-cell">
+                <button
+                  class="action-btn view-btn"
+                  (click)="abrirModal(anexo)">
+                  👁
+                </button>
+
+                @if(rol === 'ADMINISTRADOR') {
+                <button
+                  class="action-btn edit-btn"
+                  (click)="abrirEditar(anexo)">
+                  ✏
+                </button>
+
+                <button
+                  class="action-btn delete-btn"
+                  (click)="cambiarEstado(anexo)">
+
+                  {{ anexo.activo === 'S'
+                  ? '🗑'
+                  : '☞' }}
+                </button>
+                }
+
+              </td>
+            </tr>
+          }
+        </tbody>
+
+      </table>
+    </div>
+  }
+
+  @empty {
+    <div class="empty-message">
+      No existen anexos registrados.
+    </div>
+  }
+
+  @if(mostarModalRegistar){
+    <app-modal-registrar-anexo
+      (cerrar)="cerrarRegistrar()"
+      (guardar)="guardarAnexo($event)">
+    </app-modal-registrar-anexo>
+  }
+
+  @if(mostrarModal){
+    <app-modal-detalle-anexo
+      [anexo]="anexoSeleccionado"
+      (cerrar)="cerrarModal()">
+    </app-modal-detalle-anexo>
+  }
+
+  @if(mostrarModalEditar){
+    <app-modal-editar-anexo
+      [anexo]="anexoEditar"
+      (cerrar)="cerrarEditar()"
+      (guardar)="guardarEdicion($event)">
+    </app-modal-editar-anexo>
+  }
+
+</div>

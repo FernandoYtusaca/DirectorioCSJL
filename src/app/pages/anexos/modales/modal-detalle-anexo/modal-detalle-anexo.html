@@ -1,0 +1,75 @@
+<div class="modal-overlay">
+  <div class="modal">
+
+    <div class="modal-header">
+      <h2>Detalle de Anexo</h2>
+    </div>
+
+    <div class="modal-body">
+
+      <p>
+        <strong>Número de anexo:</strong>
+        {{ anexo.numero }}
+      </p>
+
+      <p>
+        <strong>Dependencia:</strong>
+        {{ anexo.dependenciaNombre }}
+      </p>
+
+      <p>
+        <strong>Sede Judicial:</strong>
+        {{ anexo.sedeJudicialNombre }}
+      </p>
+
+      <p>
+        <strong>Tipo:</strong>
+        {{ anexo.tipoDependenciaNombre }}
+      </p>
+
+      @if(anexo.especialidadNombre){
+
+        <p>
+          <strong>Especialidad:</strong>
+          {{ anexo.especialidadNombre }}
+        </p>
+
+      }
+
+      @if(anexo.coordinacionNombre){
+
+        <p>
+          <strong>Coordinación:</strong>
+          {{ anexo.coordinacionNombre }}
+        </p>
+
+      }
+
+      <p>
+        <strong>Estado:</strong>
+        {{ anexo.activo === 'S' ? 'Activo' : 'Inactivo' }}
+      </p>
+
+      <p>
+        <strong>Fecha creación:</strong>
+        {{ anexo.fechaCreacion }}
+      </p>
+
+      <p>
+        <strong>Hora creación:</strong>
+        {{ anexo.horaCreacion }}
+      </p>
+
+    </div>
+
+    <div class="modal-footer">
+      <button
+        class="btn-cerrar-modal"
+        (click)="cerrarModal()">
+        Cerrar
+      </button>
+    </div>
+    
+  </div>
+
+</div>

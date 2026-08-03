@@ -1,0 +1,59 @@
+<div class="modal-overlay">
+    <div class="modal">
+
+        <div class="modal-header">
+            <h2>Registrar Anexo</h2>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="campo">
+
+                <label>Dependencia</label>
+
+                <select
+                    [(ngModel)]="nuevoAnexo.dependenciaId">
+
+                    <option [ngValue]="0">
+                        Seleccione dependencia
+                    </option>
+
+                    @for(dep of dependencias; track dep.id){
+                        <option [ngValue]="dep.id">
+                        {{ dep.nombre }}
+                        </option>
+                    }
+                </select>
+
+            </div>
+
+            <div class="campo">
+
+                <label>Número de anexo</label>
+
+                <input
+                type="text"
+                [(ngModel)]="nuevoAnexo.numero"
+                placeholder="Ingrese número de anexo">
+                
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="btn-cancelar"
+                (click)="cerrarModal()">
+                Cancelar
+            </button>
+
+            <button
+                class="btn-guardar"
+                (click)="guardarAnexo()">
+                Guardar
+            </button>
+            
+        </div>
+    </div>
+</div>

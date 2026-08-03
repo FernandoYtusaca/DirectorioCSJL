@@ -1,0 +1,79 @@
+<div class="modal-overlay">
+
+  <div class="modal">
+
+    <div class="modal-header">
+      <h2>Detalle de Dependencia</h2>
+
+    </div>
+
+    <div class="modal-body">
+
+      <p><strong>Dependencia:</strong> {{ dependencia.nombre }}</p>
+
+      <p><strong>Piso:</strong> {{ dependencia.piso }}</p>
+
+      <p><strong>Sede Judicial:</strong> {{ dependencia.sedeJudicialNombre }}</p>
+
+      <p><strong>Tipo:</strong> {{ dependencia.tipoDependenciaNombre }}</p>
+
+      @if(dependencia.especialidadNombre){
+
+        <p><strong>Especialidad:</strong> {{ dependencia.especialidadNombre }}</p>
+
+      }
+
+      @if(dependencia.coordinacionNombre){
+
+        <p><strong>Coordinación:</strong> {{ dependencia.coordinacionNombre }}</p>
+
+      }
+
+      <p><strong>Estado:</strong>
+        {{ dependencia.activo === 'S' ? 'Activo' : 'Inactivo' }}
+      </p>
+
+      <h3>Anexos Telefónicos</h3>
+
+      @if(anexos.length > 0){
+
+        <div class="lista-anexos">
+
+          @for(anexo of anexos; track anexo.id){
+
+            <span class="anexo-item">
+              {{ anexo.numero }}
+            </span>
+
+          }
+
+        </div>
+
+      }
+      @else{
+
+        <p class="sin-anexos">
+          No existen anexos registrados para esta dependencia.
+        </p>
+
+      }
+
+
+      <p><strong>Fecha creación:</strong> {{ dependencia.fechaCreacion }}</p>
+
+      <p><strong>Hora creación:</strong> {{ dependencia.horaCreacion }}</p>
+
+    </div>
+
+    <div class="modal-footer">
+
+      <button class="btn-cerrar-modal"
+              (click)="cerrarModal()">
+        Cerrar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

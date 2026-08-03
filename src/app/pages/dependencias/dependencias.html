@@ -1,0 +1,187 @@
+<div class="table-container">
+
+  <app-filtros-dependencias
+  (filtrar)="recibirFiltros($event)">
+  </app-filtros-dependencias>
+  <br>
+
+  @if(rol === 'ADMINISTRADOR'){
+  <div class="table-actions">
+    <button class="=btn-agregar" (click)="abrirRegistrar()">
+      Agregar Dependencia
+    </button>
+  </div>
+  }
+  <br>
+
+  <table class="custom-table">
+
+    <thead>
+      <tr>
+        <th>DEPENDENCIA</th>
+        <th>SEDE JUDICIAL</th>
+        <th>TIPO</th>
+        <th>ESPECIALIDAD / COORDINACIÓN</th>
+        <th>ESTADO</th>
+        <th>ACCIONES</th>
+      </tr>
+    </thead>
+
+
+    <tbody>
+
+      @for (dependencia of dependencias; track dependencia.id) {
+
+        <tr>
+
+          <!-- NOMBRE DEPENDENCIA -->
+          <td>
+            <div class="dep-title">
+              {{ dependencia.nombre }}
+            </div>
+
+            <div class="dep-subtitle">
+              Piso: {{ dependencia.piso }}
+            </div>
+          </td>
+
+
+          <!-- SEDE -->
+          <td>
+            {{ dependencia.sedeJudicialNombre }}
+          </td>
+
+
+          <!-- TIPO -->
+          <td>
+
+            <span 
+              class="badge"
+              [ngClass]="dependencia.tipoDependenciaNombre === 'Jurisdiccional'
+              ? 'badge-jurisdiccional'
+              : 'badge-administrativa'">
+
+              {{ dependencia.tipoDependenciaNombre }}
+
+            </span>
+
+          </td>
+
+
+          <!-- ESPECIALIDAD / COORDINACION -->
+          <td>
+
+            @if(dependencia.especialidadNombre){
+
+              <span>
+                {{ dependencia.especialidadNombre }}
+              </span>
+
+            }
+            @else {
+
+              <span>
+                {{ dependencia.coordinacionNombre }}
+              </span>
+
+            }
+
+          </td>
+
+
+          <!-- ESTADO -->
+          <td>
+
+            <span 
+              class="estado"
+              [ngClass]="dependencia.activo === 'S'
+              ? 'estado-activo'
+              : 'estado-inactivo'">
+
+              {{ dependencia.activo === 'S' ? 'Activo' : 'Inactivo' }}
+
+            </span>
+
+          </td>
+
+
+          <!-- ACCIONES -->
+          <td class="actions-cell">
+
+
+            <button class="action-btn view-btn" (click)="abrirModal(dependencia)">
+              👁
+            </button>
+
+            @if(rol === 'ADMINISTRADOR'){
+            <button class="action-btn edit-btn" (click)="abrirEditar(dependencia)">
+              ✏
+            </button>
+
+
+            <button class="action-btn delete-btn" (click)="cambiarEstado(dependencia)">
+              {{ dependencia.activo === 'S' ? '🗑' : '☞'}} 
+            </button>
+            }
+
+          </td>
+
+
+        </tr>
+
+      }
+
+
+      @empty {
+
+        <tr>
+
+          <td colspan="6" class="empty-message">
+            No existen dependencias registradas.
+          </td>
+
+        </tr>
+
+      }
+
+
+    </tbody>
+
+
+  </table>
+
+
+  <div class="table-footer">
+
+    Mostrando {{ dependencias.length }} registros
+
+  </div>
+
+  @if(mostrarModal){
+    <app-modal-detalle-dependencia
+      [dependencia] = "dependenciaSeleccionada!" 
+      (cerrar) = "cerrarModal()"
+    ></app-modal-detalle-dependencia>
+  }
+
+  @if (mostrarModalEditar) {
+    <app-modadl-editar-dependencia
+      *ngIf="mostrarModalEditar"
+      [dependencia] = "dependenciaEditar"
+      (cerrar)= "cerrarEditar()"
+      (guardar)="guardarEdicion($event)">
+    </app-modadl-editar-dependencia>
+  }
+
+  @if(mostrarModalRegistrar){
+    <app-modal-registrar-dependencia
+      (cerrar)="cerrarRegistrar()"
+      (guardar)="guardarNuevaDependencia($event)">
+
+    </app-modal-registrar-dependencia>
+  }
+
+
+
+</div>
+

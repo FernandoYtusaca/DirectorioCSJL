@@ -1,0 +1,143 @@
+<div class="filters-card">
+
+  <div class="filters-grid-inputs">
+
+    <!-- SEDE -->
+    <div class="filter-group">
+      <label>Sede</label>
+      <select [(ngModel)]="sedeSeleccionada" (change)="emitirFiltros()">
+        <option value="">
+          Todas las sedes
+        </option>
+        @for (sede of sedes; track sede.id) {
+          <option [value]="sede.id">
+            {{ sede.nombre }}
+          </option>
+        }
+      </select>
+    </div>
+
+
+    <!-- TIPO DEPENDENCIA -->
+    <div class="filter-group">
+      <label>
+        Tipo de Dependencia
+      </label>
+
+      <select
+        [(ngModel)]="tipoSeleccionado"
+        (change)="cambioTipo(); emitirFiltros()">
+        <option value="">
+          Todos los tipos
+        </option>
+        @for(tipo of tipos; track tipo.id){
+          <option [value]="tipo.id">
+            {{tipo.nombre}}
+          </option>
+        }
+      </select>
+    </div>
+
+    <!-- BUSCAR -->
+    <div class="filter-group">
+      <label>
+        Buscar por nombre
+      </label>
+
+      <input
+        type="text"
+        [(ngModel)]="nombreBusqueda"
+        (input)="emitirFiltros()"
+        placeholder="Ej. Juzgado Civil">
+    </div>
+
+    <!-- NIVEL JURISDICCIONAL -->
+    @if(esJurisdiccional){
+      <div class="filter-group">
+        <label>
+          Nivel Jurisdiccional
+        </label>
+
+        <select
+          [(ngModel)]="nivelSeleccionado"
+          (change)="cambioNivel()">
+          <option value="">
+            Todos los niveles
+          </option>
+          @for(nivel of niveles; track nivel.id){
+            <option [value]="nivel.id">
+              {{nivel.nombre}}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- ESPECIALIDAD -->
+      <div class="filter-group">
+        <label>
+          Especialidad
+        </label>
+
+        <select [(ngModel)]="especialidadSeleccionada" (change)="emitirFiltros()">
+          <option value="">
+            Todas las especialidades
+          </option>
+          @for(especialidad of especialidades; track especialidad.id){
+            <option [value]="especialidad.id">
+              {{especialidad.nombre}}
+            </option>
+          }
+
+        </select>
+      </div>
+    }
+
+    <!-- UNIDAD ADMINISTRATIVA -->
+    @if(esAdministrativa){
+      <div class="filter-group">
+        <label>
+          Unidad Administrativa
+        </label>
+
+        <select
+          [(ngModel)]="unidadSeleccionada"
+          (change)="cambioUnidad()">
+          <option value="">
+            Todas las unidades
+          </option>
+
+          @for(unidad of unidades; track unidad.id){
+            <option [value]="unidad.id">
+              {{unidad.nombre}}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- COORDINACION -->
+      <div class="filter-group">
+        <label>
+          Coordinación
+        </label>
+
+        <select [(ngModel)]="coordinacionSeleccionada" (change)="emitirFiltros()">
+          <option value="">
+            Todas las coordinaciones
+          </option>
+          @for(coordinacion of coordinaciones; track coordinacion.id){
+            <option [value]="coordinacion.id">
+              {{coordinacion.nombre}}
+            </option>
+          }
+        </select>
+      </div>
+    }
+  </div>
+
+  <div class="filter-actions-container">
+    <button class="btn-limpiar" (click)="limpiarFiltros()">
+      Limpiar filtros
+    </button>
+  </div>
+
+</div>

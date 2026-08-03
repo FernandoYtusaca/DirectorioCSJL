@@ -1,0 +1,43 @@
+<div class="modal-overlay">
+  <div class="modal">
+
+    <div class="modal-header">
+      <h2>Editar Anexo</h2>
+    </div>
+
+    <div class="modal-body">
+        
+      <div class="campo">
+        <label>Dependencia</label>
+        <input
+          type="text"
+          [value]="anexo.dependenciaNombre"
+          disabled>
+      </div>
+
+      <div class="campo">
+        <label>Número de anexo</label>
+        <input
+          type="text"
+          [(ngModel)]="anexo.numero">
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button
+        class="btn-cancelar"
+        (click)="cerrarModal()">
+        Cancelar
+      </button>
+
+      <button
+        class="btn-guardar"
+        (click)="guardarCambios()">
+        Guardar cambios
+      </button>
+    </div>
+
+  </div>
+
+</div>
