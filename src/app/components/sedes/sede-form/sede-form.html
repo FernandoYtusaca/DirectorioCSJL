@@ -1,0 +1,117 @@
+<div class="form-container">
+    <h2>
+        {{ modo === 'crear'
+            ? 'Nueva Sede Judicial'
+            : 'Editar Sede Judicial'
+        }}
+    </h2>
+
+    <div class="campo">
+        <label>
+            Nombre de la sede
+        </label>
+
+        <input
+            type="text"
+            [(ngModel)]="formulario.nombre"
+        >
+    </div>
+
+
+    <div class="campo">
+
+        <label>
+            Dirección
+        </label>
+
+        <input
+            type="text"
+            [(ngModel)]="formulario.direccion"
+        >
+
+    </div>
+
+
+
+    <div class="campo">
+
+        <label>
+            Teléfono
+        </label>
+
+        <input
+            type="text"
+            [(ngModel)]="formulario.telefono"
+        >
+
+    </div>
+
+
+
+    <div class="campo">
+        <label>
+            Distrito
+        </label>
+
+        <app-distrito-selector [distritoSeleccionado]="formulario.distritoId" (distritoChange)="formulario.distritoId = $event">
+        </app-distrito-selector>
+    </div>
+
+    <div class="campo">
+        <label>
+            Ubicación mapa
+        </label>
+
+        <input type="text" [(ngModel)]="formulario.mapa" (input)="actualizarMapa()" placeholder="URL del mapa">
+        
+        <div class="mapa-preview" *ngIf="mapaSeguro">
+            <iframe [src]="mapaSeguro" width="100%" height="250" style="border:0" loading="lazy">
+            </iframe>
+        </div>
+
+    </div>
+
+    <div class="campo">
+        <label>
+            Estado
+        </label>
+        
+        <select [(ngModel)]="formulario.activo">
+            <option value="A">
+                Activo
+            </option>
+            <option value="I">
+                Inactivo
+            </option>
+        </select>
+
+    </div>
+
+
+
+    <div class="acciones">
+
+
+        <button
+            type="button"
+            (click)="cancelar()">
+
+            Cancelar
+
+        </button>
+
+
+
+        <button
+            type="button"
+            (click)="guardar()">
+
+            Guardar
+
+        </button>
+
+
+    </div>
+
+
+</div>

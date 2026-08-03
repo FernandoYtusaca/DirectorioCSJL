@@ -1,0 +1,17 @@
+.mapa-preview {
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+
+.mapa-preview iframe {
+    display: block;
+}
+
+.error{
+    color:#d32f2f;
+    font-size:12px;
+    margin-top:4px;
+}

@@ -1,11 +1,175 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { SedeJudicial } from '../../models/sedeJudicial.model';
+import { SedeJudicialService } from '../../services/sedeJudicial.service';
+
+import { SedeFormComponent } from '../../components/sedes/sede-form/sede-form';
 
 @Component({
   selector: 'app-sedes',
-  imports: [],
+  standalone: true,
+  imports: [
+    CommonModule,
+    SedeFormComponent
+  ],
   templateUrl: './sedes.html',
-  styleUrl: './sedes.css',
+  styleUrl: './sedes.css'
 })
-export class Sedes {
+export class SedesComponent implements OnInit {
+
+  sedes: SedeJudicial[] = [];
+  sedesOriginales: SedeJudicial[] = [];
+
+  mostrarFormulario = false;
+
+  modoFormulario: 'crear' | 'editar' = 'crear';
+
+  sedeSeleccionada?: SedeJudicial;
+
+
+  constructor(
+    private sedeService: SedeJudicialService
+  ) {}
+
+
+  ngOnInit(): void {
+    this.cargarSedes();
+  }
+
+
+  cargarSedes(): void {
+
+    this.sedeService.listar()
+      .subscribe({
+        next: (data) => {
+
+          this.sedes = data;
+          this.sedesOriginales = [...data];
+
+        },
+        error: (error) => {
+          console.error(
+            'Error cargando sedes:',
+            error
+          );
+        }
+      });
+
+  }
+
+
+  nuevaSede(): void {
+
+    this.modoFormulario = 'crear';
+
+    this.sedeSeleccionada = undefined;
+
+    this.mostrarFormulario = true;
+
+  }
+
+
+  editarSede(sede: SedeJudicial): void {
+
+    this.modoFormulario = 'editar';
+
+    this.sedeSeleccionada = {
+      ...sede
+    };
+
+    this.mostrarFormulario = true;
+
+  }
+
+
+  cerrarFormulario(): void {
+
+    this.mostrarFormulario = false;
+
+    this.sedeSeleccionada = undefined;
+
+  }
+
+
+  guardarSede(): void {
+
+    this.cerrarFormulario();
+
+    this.cargarSedes();
+
+  }
+
+
+  filtrar(texto: string): void {
+
+    const valor = texto
+      .trim()
+      .toLowerCase();
+
+
+    if (!valor) {
+
+      this.sedes = [
+        ...this.sedesOriginales
+      ];
+
+      return;
+
+    }
+
+
+    this.sedes =
+    this.sedesOriginales.filter(
+      sede =>
+        (sede.nombre ?? '')
+      .toLowerCase()
+      .includes(valor)
+      ||
+      (sede.direccion ?? '')
+      .toLowerCase()
+      .includes(valor)
+      ||
+      (sede.telefono ?? '')
+      .toLowerCase()
+      .includes(valor)
+    );
+
+  }
+
+  cambiarEstado(sede: SedeJudicial): void {
+
+    const nuevoEstado =
+        sede.activo === 'A'
+        ? 'I'
+        : 'A';
+
+
+    this.sedeService
+        .cambiarEstado(
+            sede.id,
+            nuevoEstado
+        )
+        .subscribe({
+
+            next: () => {
+
+                this.cargarSedes();
+
+            },
+
+            error: (error) => {
+
+                console.error(
+                    'Error cambiando estado',
+                    error
+                );
+
+            }
+
+        });
+
+}
+
 
 }

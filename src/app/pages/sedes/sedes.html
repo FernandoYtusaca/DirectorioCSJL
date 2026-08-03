@@ -1,1 +1,97 @@
-<p>sedes works!</p>
+<section class="sedes-container">
+    <div class="header-seccion">
+        <div>
+            <h1>
+                Sedes Judiciales
+            </h1>
+
+            <p>
+                Administración de sedes registradas
+            </p>
+
+        </div>
+
+        <button
+            class="btn-nueva"
+            (click)="nuevaSede()">
+            + Nueva Sede
+        </button>
+
+    </div>
+
+    <div class="herramientas">
+        <input type="text" placeholder="Buscar sede..." (input)="filtrar($any($event.target).value)">
+    </div>
+
+    <div class="tabla-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+
+                    <th>
+                        Dirección
+                    </th>
+
+                    <th>
+                        Teléfono
+                    </th>
+
+                    <th>
+                        Estado
+                    </th>
+
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let sede of sedes">
+                    <td>
+                        {{ sede.nombre }}
+                    </td>
+
+                    <td>
+                        {{ sede.direccion }}
+                    </td>
+
+                    <td>
+                        {{ sede.telefono }}
+                    </td>
+
+                    <td>
+                        <span class="estado" [class.activo]="sede.activo === 'A'" [class.inactivo]="sede.activo !== 'A'">
+                            {{ sede.activo === 'A' ? 'Activo': 'Inactivo'}}
+                        </span>
+                    </td>
+
+                    <td>
+                        <button class="btn-editar" (click)="editarSede(sede)">
+                            Editar
+                        </button>
+                        <button class="btn-estado" (click)="cambiarEstado(sede)">
+                            {{ sede.activo ? 'Desactivar': 'Activar'}}
+                        </button>
+                    </td>
+                </tr>
+
+                <tr *ngIf="sedes.length === 0">
+                    <td colspan="5" class="sin-datos">
+                        No existen sedes registradas
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Formulario Crear / Editar -->
+<div class="modal-fondo" *ngIf="mostrarFormulario">
+    <div class="modal">
+        <app-sede-form [modo]="modoFormulario" [sede]="sedeSeleccionada" (guardado)="guardarSede()" (cancelado)="cerrarFormulario()"></app-sede-form>
+    </div>
+</div>

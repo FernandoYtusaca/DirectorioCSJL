@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { Sedes } from './pages/sedes/sedes';
 import { Anexos } from './pages/anexos/anexos';
 import { Login } from './pages/login/login';
 import { Dependencias } from './pages/dependencias/dependencias';
@@ -21,7 +20,9 @@ export const routes: Routes = [
 
     {
         path: 'sedes',
-        component: Sedes
+        loadComponent: () =>
+            import('./pages/sedes/sedes')
+        .then(m => m.SedesComponent)
     },
 
     {
