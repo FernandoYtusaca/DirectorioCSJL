@@ -52,6 +52,8 @@ export class SedeFormComponent {
   formulario!: SedeJudicial;
   mapaSeguro?: SafeResourceUrl;
 
+  guardando = false;
+
   constructor(
     private fb: FormBuilder,
     private sedeService: SedeJudicialService,
@@ -116,6 +118,7 @@ export class SedeFormComponent {
     .crear(this.formulario)
     .subscribe({
       next: () => {
+        this.guardando = false;
         this.guardado.emit();
       },
       error: error => {
@@ -136,6 +139,7 @@ export class SedeFormComponent {
         this.guardado.emit();
       },
       error: error => {
+        this.guardando = false;
         console.error(error);
         alert('No se pudo actualizar la sede.');
       }

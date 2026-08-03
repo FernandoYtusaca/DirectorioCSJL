@@ -8,13 +8,10 @@
 
     <div class="campo">
         <label>
-            Nombre de la sede
+            Nombre de la sede <span class="obligatorio">*</span>
         </label>
 
-        <input
-            type="text"
-            [(ngModel)]="formulario.nombre"
-        >
+        <input type="text" [(ngModel)]="formulario.nombre" maxlength="150" required>
     </div>
 
 
@@ -26,7 +23,7 @@
 
         <input
             type="text"
-            [(ngModel)]="formulario.direccion"
+            [(ngModel)]="formulario.direccion" maxlength="250" required
         >
 
     </div>
@@ -41,7 +38,7 @@
 
         <input
             type="text"
-            [(ngModel)]="formulario.telefono"
+            [(ngModel)]="formulario.telefono" maxlength="20"
         >
 
     </div>
@@ -92,24 +89,13 @@
     <div class="acciones">
 
 
-        <button
-            type="button"
-            (click)="cancelar()">
-
+        <button type="button" (click)="cancelar()" [disabled]="guardando">
             Cancelar
-
         </button>
 
-
-
-        <button
-            type="button"
-            (click)="guardar()">
-
-            Guardar
-
+        <button (click)="guardar()" [disabled]="guardando">
+            {{ guardando ? 'Guardando...' : 'Guardar' }}
         </button>
-
 
     </div>
 
