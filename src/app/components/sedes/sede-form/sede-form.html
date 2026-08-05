@@ -88,37 +88,19 @@
 
 
         <div class="campo">
-
             <label>
                 Ubicación mapa
             </label>
-
-            <input
-                type="text"
-                [(ngModel)]="formulario.mapa"
-                name="mapa"
-                placeholder="URL del mapa"
-                (ngModelChange)="actualizarMapa()"
-            >
-
+            <input type="text" [(ngModel)]="formulario.mapa" name="mapa" placeholder="URL de Google Maps">
+            <div class="mapa-accion" *ngIf="formulario.mapa">
+                <a [href]="formulario.mapa" target="_blank" rel="noopener noreferrer" class="btn-mapa">
+                    📍 Ver ubicación en Google Maps
+                </a>
+            </div>
         </div>
 
 
-        <div
-            class="mapa-preview"
-            *ngIf="mapaSeguro"
-        >
-
-            <iframe
-                [src]="mapaSeguro"
-                width="100%"
-                height="250"
-                frameborder="0"
-                loading="lazy"
-            >
-            </iframe>
-
-        </div>
+        
 
     </div>
 

@@ -10,6 +10,10 @@ import { BuscadorComponent } from '../../shared/buscador/buscador';
 import { EstadoBadgeComponent } from '../../shared/estado-badge/estado-badge';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog';
 
+import { ModalDetalleSedeComponent } from './modales/modal-detalle-sede/modal-detalle-sede';
+import { Distrito } from '../../models/distrito.model';
+import { DistritoService } from '../../services/distrito.service';
+
 
 @Component({
   selector: 'app-sedes',
@@ -19,7 +23,8 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
     SedeFormComponent,
     BuscadorComponent,
     EstadoBadgeComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ModalDetalleSedeComponent
   ],
   templateUrl: './sedes.html',
   styleUrl: './sedes.css'
@@ -30,6 +35,8 @@ export class SedesComponent implements OnInit {
   sedes: SedeJudicial[] = [];
 
   sedesOriginales: SedeJudicial[] = [];
+
+  distritos: Distrito[] = [];
 
 
   mostrarFormulario = false;
@@ -42,6 +49,12 @@ export class SedesComponent implements OnInit {
 
   sedeSeleccionada?: SedeJudicial;
 
+  distritoDetalle = '';
+
+  mostrarDetalle = false;
+
+  sedeDetalle?: SedeJudicial;
+
   sedeParaCambiarEstado?: SedeJudicial;
 
 
@@ -49,49 +62,69 @@ export class SedesComponent implements OnInit {
 
 
   constructor(
-    private sedeService: SedeJudicialService
+    private sedeService: SedeJudicialService,
+    private distritoService: DistritoService
   ) {}
 
 
   ngOnInit(): void {
 
     this.cargarSedes();
+    this.cargarDistritos();
 
   }
 
 
   cargarSedes(): void {
-
     this.cargando = true;
-
-
     this.sedeService
-      .listar()
-      .subscribe({
+    .listar()
+    .subscribe({
+      next: (data) => {
+        this.sedes = data;
+        this.sedesOriginales = [...data];
+        this.cargando = false;
+      },
+      
+      error: (error) => {
+        console.error(
+          'Error cargando sedes:',
+          error
+        );
+        
+        this.cargando = false;
+      }
+    });
+  }
 
-        next: (data) => {
+  cargarDistritos(): void {
+    this.distritoService
+    .listar()
+    .subscribe({
+      next: (data) => {
+        this.distritos = data;
+      },
 
-          this.sedes = data;
+      error: (error) => {
+        console.error(
+          'Error cargando distritos:',
+          error
+        );
+      }
+    });
+  }
 
-          this.sedesOriginales = [...data];
-
-          this.cargando = false;
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Error cargando sedes:',
-            error
-          );
-
-          this.cargando = false;
-
-        }
-
-      });
-
+  obtenerNombreDistrito(
+    distritoId: number
+  ): string {
+    const distrito =
+    this.distritos.find(
+      d => d.id === distritoId
+    );
+    
+    return distrito
+    ? distrito.nombre
+    : 'No disponible';
   }
 
 
@@ -205,7 +238,7 @@ export class SedesComponent implements OnInit {
 
 
     const nuevoEstado =
-      sede.activo === 'A';
+      sede.activo !== 'A';
 
 
     this.sedeService
@@ -240,11 +273,28 @@ export class SedesComponent implements OnInit {
 
 
   cerrarConfirmacion(): void {
-
     this.mostrarConfirmacion = false;
-
     this.sedeParaCambiarEstado = undefined;
 
+  }
+
+  abrirDetalle(sede: SedeJudicial): void {
+    this.sedeDetalle = {
+      ...sede
+    };
+
+    this.distritoDetalle =
+    this.obtenerNombreDistrito(
+      sede.distritoId
+    );
+
+    this.mostrarDetalle = true;
+  }
+  
+  cerrarDetalle(): void {
+    this.mostrarDetalle = false;
+    this.sedeDetalle = undefined;
+    this.distritoDetalle = '';
   }
 
 }

@@ -57,105 +57,49 @@
         <table>
 
             <thead>
-
                 <tr>
-
-                    <th>
-                        Nombre
-                    </th>
-
-                    <th>
-                        Dirección
-                    </th>
-
-                    <th>
-                        Teléfono
-                    </th>
-
-                    <th>
-                        Estado
-                    </th>
-
-                    <th>
-                        Acciones
-                    </th>
-
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Distrito</th>
+                    <th>Teléfono</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
-
             </thead>
-
 
             <tbody>
 
-                <tr
-                    *ngFor="let sede of sedes"
-                >
+                <tr *ngFor="let sede of sedes">
+
+                    <td>{{ sede.nombre }}</td>
+                    <td>{{ sede.direccion }}</td>
+                    <td>{{ obtenerNombreDistrito(sede.distritoId) }}</td>
+                    <td>{{ sede.telefono }}</td>
 
                     <td>
-                        {{ sede.nombre }}
+                        <app-estado-badge [estado]="sede.activo"></app-estado-badge>
                     </td>
-
-
-                    <td>
-                        {{ sede.direccion }}
-                    </td>
-
-
-                    <td>
-                        {{ sede.telefono }}
-                    </td>
-
-
-                    <td>
-
-                        <app-estado-badge
-                            [estado]="sede.activo"
-                        >
-                        </app-estado-badge>
-
-                    </td>
-
 
                     <td class="acciones">
-
-                        <button
-                            type="button"
-                            class="btn-editar"
-                            (click)="editarSede(sede)"
-                        >
-
-                            Editar
-
+                        <button type="button" class="btn-ver" (click)="abrirDetalle(sede)" title="Ver detalles">
+                            👁
                         </button>
 
-
-                        <button
-                            type="button"
-                            class="btn-estado"
-                            (click)="solicitarCambioEstado(sede)"
-                        >
-
-                            {{
-                                sede.activo === 'A'
-                                    ? 'Desactivar'
-                                    : 'Activar'
-                            }}
-
+                        <button type="button" class="btn-editar" (click)="editarSede(sede)" title="Editar sede">
+                            ✏
                         </button>
-
+                        
+                        <button type="button" class="btn-estado" (click)="solicitarCambioEstado(sede)" title="{{sede.activo === 'A'? 'Desactivar sede': 'Activar sede'}}">
+                            {{sede.activo === 'A'? 'Desactivar': 'Activar'}}
+                        </button>
                     </td>
 
                 </tr>
 
 
                 <tr *ngIf="sedes.length === 0">
-                    <td
-                        colspan="5"
-                        class="sin-datos"
-                    >
-
+                    <td colspan="6" class="sin-datos">
                         No existen sedes registradas.
-
                     </td>
 
                 </tr>
@@ -189,6 +133,8 @@
     </div>
 
 </div>
+
+<app-modal-detalle-sede *ngIf="mostrarDetalle && sedeDetalle" [sede]="sedeDetalle" [nombreDistrito]="distritoDetalle" (cerrar)="cerrarDetalle()"></app-modal-detalle-sede>
 
 
 <!-- Confirmación de cambio de estado -->
