@@ -164,33 +164,3 @@ td {
     max-width: 90%;
 
 }
-
-.estado {
-
-    padding: 4px 12px;
-
-    border-radius: 15px;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-}
-
-
-.activo {
-
-    background: #e8f5e9;
-
-    color: #2e7d32;
-
-}
-
-
-.inactivo {
-
-    background: #ffebee;
-
-    color: #c62828;
-
-}

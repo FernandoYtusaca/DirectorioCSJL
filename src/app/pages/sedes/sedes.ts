@@ -6,12 +6,20 @@ import { SedeJudicialService } from '../../services/sedeJudicial.service';
 
 import { SedeFormComponent } from '../../components/sedes/sede-form/sede-form';
 
+import { BuscadorComponent } from '../../shared/buscador/buscador';
+
+import { EstadoBadgeComponent } from '../../shared/estado-badge/estado-badge';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog';
+
 @Component({
   selector: 'app-sedes',
   standalone: true,
   imports: [
     CommonModule,
-    SedeFormComponent
+    SedeFormComponent,
+    BuscadorComponent,
+    EstadoBadgeComponent,
+    ConfirmDialogComponent
   ],
   templateUrl: './sedes.html',
   styleUrl: './sedes.css'
@@ -28,6 +36,10 @@ export class SedesComponent implements OnInit {
   modoFormulario: 'crear' | 'editar' = 'crear';
 
   sedeSeleccionada?: SedeJudicial;
+
+  mostrarConfirmacion = false;
+  sedeParaCambiarEstado?: SedeJudicial;
+
 
 
   constructor(
@@ -139,39 +151,44 @@ export class SedesComponent implements OnInit {
 
   }
 
-  cambiarEstado(sede: SedeJudicial): void {
+  solicitarCambioEstado(sede: SedeJudicial): void {
+    this.sedeParaCambiarEstado = sede;
+    this.mostrarConfirmacion = true;
+  }
 
+  confirmarCambioEstado(): void {
+    if (!this.sedeParaCambiarEstado) {
+      return;
+    }
+    
+    const sede = this.sedeParaCambiarEstado;
     const nuevoEstado =
-        sede.activo === 'A'
-        ? 'I'
-        : 'A';
-
-
+    sede.activo === 'A';
+    
     this.sedeService
-        .cambiarEstado(
-            sede.id,
-            sede.activo !== 'A'
-        )
-        .subscribe({
+    .cambiarEstado(
+      sede.id,
+      nuevoEstado
+    )
+    .subscribe({
+      next: () => {
+        this.cerrarConfirmacion();
+        this.cargarSedes();
+      },
+      
+      error: (error) => {
+        console.error(
+          'Error cambiando estado',
+          error
+        );
+        this.cerrarConfirmacion();
+      }
+    });
+  }
 
-            next: () => {
-
-                this.cargarSedes();
-
-            },
-
-            error: (error) => {
-
-                console.error(
-                    'Error cambiando estado',
-                    error
-                );
-
-            }
-
-        });
-
-}
-
+  cerrarConfirmacion(): void {
+    this.mostrarConfirmacion = false;
+    this.sedeParaCambiarEstado = undefined;
+  }
 
 }

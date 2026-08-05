@@ -20,7 +20,8 @@
     </div>
 
     <div class="herramientas">
-        <input type="text" placeholder="Buscar sede..." (input)="filtrar($any($event.target).value)">
+        <app-buscador placeholder="Buscar sede..." (buscar)="filtrar($event)">
+        </app-buscador>
     </div>
 
     <div class="tabla-container">
@@ -64,17 +65,16 @@
                     </td>
 
                     <td>
-                        <span class="estado" [class.activo]="sede.activo === 'A'" [class.inactivo]="sede.activo !== 'A'">
-                            {{ sede.activo === 'A' ? 'Activo': 'Inactivo'}}
-                        </span>
+                        <app-estado-badge [estado]="sede.activo">
+                        </app-estado-badge>
                     </td>
 
                     <td>
                         <button class="btn-editar" (click)="editarSede(sede)">
                             Editar
                         </button>
-                        <button class="btn-estado" (click)="cambiarEstado(sede)">
-                            {{ sede.activo === 'A' ? 'Desactivar': 'Activar'}}
+                        <button class="btn-estado" (click)="solicitarCambioEstado(sede)">
+                            {{sede.activo === 'A'? 'Desactivar': 'Activar'}}
                         </button>
                     </td>
                 </tr>
@@ -88,6 +88,35 @@
         </table>
     </div>
 </section>
+
+<app-confirm-dialog
+    *ngIf="mostrarConfirmacion"
+
+    [titulo]="
+        sedeParaCambiarEstado?.activo === 'A'
+            ? 'Desactivar sede'
+            : 'Activar sede'
+    "
+
+    [mensaje]="
+        sedeParaCambiarEstado?.activo === 'A'
+            ? '¿Está seguro de desactivar esta sede?'
+            : '¿Está seguro de activar esta sede?'
+    "
+
+    [textoCancelar]="'Cancelar'"
+
+    [textoConfirmar]="
+        sedeParaCambiarEstado?.activo === 'A'
+            ? 'Desactivar'
+            : 'Activar'
+    "
+
+    (confirmado)="confirmarCambioEstado()"
+
+    (cancelado)="cerrarConfirmacion()"
+>
+</app-confirm-dialog>
 
 <!-- Formulario Crear / Editar -->
 <div class="modal-fondo" *ngIf="mostrarFormulario">

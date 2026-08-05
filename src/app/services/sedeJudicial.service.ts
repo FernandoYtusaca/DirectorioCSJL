@@ -79,9 +79,6 @@ export class SedeJudicialService {
 
   }
 
-
-
-
   cambiarEstado(
     id:number,
     activo:boolean
@@ -95,8 +92,6 @@ export class SedeJudicialService {
       }
     );
 
-
   }
-
 
 }
