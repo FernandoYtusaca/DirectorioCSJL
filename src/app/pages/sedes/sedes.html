@@ -1,6 +1,9 @@
 <section class="sedes-container">
+
     <div class="header-seccion">
+
         <div>
+
             <h1>
                 Sedes Judiciales
             </h1>
@@ -11,23 +14,52 @@
 
         </div>
 
+
         <button
+            type="button"
             class="btn-nueva"
-            (click)="nuevaSede()">
+            (click)="nuevaSede()"
+        >
+
             + Nueva Sede
+
         </button>
 
     </div>
 
+
     <div class="herramientas">
-        <app-buscador placeholder="Buscar sede..." (buscar)="filtrar($event)">
+
+        <app-buscador
+            placeholder="Buscar sede..."
+            (buscar)="filtrar($event)"
+        >
         </app-buscador>
+
     </div>
 
-    <div class="tabla-container">
+
+    <div
+        class="cargando"
+        *ngIf="cargando"
+    >
+
+        Cargando sedes...
+
+    </div>
+
+
+    <div
+        class="tabla-container"
+        *ngIf="!cargando"
+    >
+
         <table>
+
             <thead>
+
                 <tr>
+
                     <th>
                         Nombre
                     </th>
@@ -47,47 +79,119 @@
                     <th>
                         Acciones
                     </th>
+
                 </tr>
+
             </thead>
 
+
             <tbody>
-                <tr *ngFor="let sede of sedes">
+
+                <tr
+                    *ngFor="let sede of sedes"
+                >
+
                     <td>
                         {{ sede.nombre }}
                     </td>
+
 
                     <td>
                         {{ sede.direccion }}
                     </td>
 
+
                     <td>
                         {{ sede.telefono }}
                     </td>
 
+
                     <td>
-                        <app-estado-badge [estado]="sede.activo">
+
+                        <app-estado-badge
+                            [estado]="sede.activo"
+                        >
                         </app-estado-badge>
+
                     </td>
 
-                    <td>
-                        <button class="btn-editar" (click)="editarSede(sede)">
+
+                    <td class="acciones">
+
+                        <button
+                            type="button"
+                            class="btn-editar"
+                            (click)="editarSede(sede)"
+                        >
+
                             Editar
+
                         </button>
-                        <button class="btn-estado" (click)="solicitarCambioEstado(sede)">
-                            {{sede.activo === 'A'? 'Desactivar': 'Activar'}}
+
+
+                        <button
+                            type="button"
+                            class="btn-estado"
+                            (click)="solicitarCambioEstado(sede)"
+                        >
+
+                            {{
+                                sede.activo === 'A'
+                                    ? 'Desactivar'
+                                    : 'Activar'
+                            }}
+
                         </button>
+
                     </td>
+
                 </tr>
 
-                <tr *ngIf="!cargando && sedes.length === 0">
-                    <td colspan="5" class="sin-datos">
-                        No existen sedes registradas
+
+                <tr *ngIf="sedes.length === 0">
+                    <td
+                        colspan="5"
+                        class="sin-datos"
+                    >
+
+                        No existen sedes registradas.
+
                     </td>
+
                 </tr>
+
             </tbody>
+
         </table>
+
     </div>
+
 </section>
+
+
+<!-- Formulario Crear / Editar -->
+
+<div
+    class="modal-fondo"
+    *ngIf="mostrarFormulario"
+>
+
+    <div class="modal">
+
+        <app-sede-form
+            [modo]="modoFormulario"
+            [sede]="sedeSeleccionada"
+            (guardado)="guardarSede()"
+            (cancelado)="cerrarFormulario()"
+        >
+        </app-sede-form>
+
+    </div>
+
+</div>
+
+
+<!-- Confirmación de cambio de estado -->
 
 <app-confirm-dialog
     *ngIf="mostrarConfirmacion"
@@ -117,10 +221,3 @@
     (cancelado)="cerrarConfirmacion()"
 >
 </app-confirm-dialog>
-
-<!-- Formulario Crear / Editar -->
-<div class="modal-fondo" *ngIf="mostrarFormulario">
-    <div class="modal">
-        <app-sede-form [modo]="modoFormulario" [sede]="sedeSeleccionada" (guardado)="guardarSede()" (cancelado)="cerrarFormulario()"></app-sede-form>
-    </div>
-</div>

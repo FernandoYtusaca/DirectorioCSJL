@@ -1,166 +1,89 @@
 .sedes-container {
-
     padding: 20px;
-
 }
 
 
 
 .header-seccion {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     margin-bottom: 20px;
-
 }
-
-
 
 .header-seccion h1 {
-
     margin: 0;
-
 }
-
-
 
 .header-seccion p {
-
     margin-top: 5px;
-
 }
-
-
 
 .btn-nueva {
-
     padding: 10px 18px;
-
     border-radius: 6px;
-
     cursor: pointer;
-
 }
-
-
 
 .herramientas {
-
     margin-bottom: 15px;
-
 }
-
-
 
 .herramientas input {
-
     width: 300px;
-
     padding: 8px 12px;
-
 }
-
-
 
 .tabla-container {
-
     overflow-x: auto;
-
 }
-
-
 
 table {
-
     width: 100%;
-
     border-collapse: collapse;
-
 }
-
-
 
 th,
 td {
-
     padding: 12px;
-
     text-align: left;
-
 }
-
-
-
-.estado {
-
-    padding: 5px 10px;
-
-    border-radius: 12px;
-
-    font-size: 13px;
-
-}
-
-
-
-.activo {
-
-    font-weight: bold;
-
-}
-
-
-
-.inactivo {
-
-    opacity: .6;
-
-}
-
-
 
 .btn-editar {
-
     cursor: pointer;
-
 }
-
-
 
 .sin-datos {
-
     text-align: center;
-
     padding: 30px;
-
 }
-
-
 
 .modal-fondo {
-
     position: fixed;
-
     inset: 0;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
 }
 
-
-
 .modal {
-
     width: 500px;
-
     max-width: 90%;
+}
 
+.cargando {
+    padding: 30px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.acciones {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sin-datos {
+    padding: 30px;
+    text-align: center;
 }

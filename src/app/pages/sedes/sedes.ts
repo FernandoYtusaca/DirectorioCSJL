@@ -7,9 +7,9 @@ import { SedeJudicialService } from '../../services/sedeJudicial.service';
 import { SedeFormComponent } from '../../components/sedes/sede-form/sede-form';
 
 import { BuscadorComponent } from '../../shared/buscador/buscador';
-
 import { EstadoBadgeComponent } from '../../shared/estado-badge/estado-badge';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog';
+
 
 @Component({
   selector: 'app-sedes',
@@ -26,20 +26,26 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
 })
 export class SedesComponent implements OnInit {
 
+
   sedes: SedeJudicial[] = [];
+
   sedesOriginales: SedeJudicial[] = [];
 
-  cargando = false;
 
   mostrarFormulario = false;
 
+  mostrarConfirmacion = false;
+
+
   modoFormulario: 'crear' | 'editar' = 'crear';
+
 
   sedeSeleccionada?: SedeJudicial;
 
-  mostrarConfirmacion = false;
   sedeParaCambiarEstado?: SedeJudicial;
 
+
+  cargando = false;
 
 
   constructor(
@@ -48,29 +54,42 @@ export class SedesComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.cargarSedes();
+
   }
 
 
   cargarSedes(): void {
 
     this.cargando = true;
-    this.sedeService.listar()
+
+
+    this.sedeService
+      .listar()
       .subscribe({
+
         next: (data) => {
 
           this.sedes = data;
+
           this.sedesOriginales = [...data];
+
           this.cargando = false;
 
         },
+
         error: (error) => {
+
           console.error(
             'Error cargando sedes:',
             error
           );
+
           this.cargando = false;
+
         }
+
       });
 
   }
@@ -110,8 +129,11 @@ export class SedesComponent implements OnInit {
 
 
   guardarSede(): void {
-    this.cargarSedes();
+
     this.cerrarFormulario();
+
+    this.cargarSedes();
+
   }
 
 
@@ -134,61 +156,95 @@ export class SedesComponent implements OnInit {
 
 
     this.sedes =
-    this.sedesOriginales.filter(
-      sede =>
-        (sede.nombre ?? '')
-      .toLowerCase()
-      .includes(valor)
-      ||
-      (sede.direccion ?? '')
-      .toLowerCase()
-      .includes(valor)
-      ||
-      (sede.telefono ?? '')
-      .toLowerCase()
-      .includes(valor)
-    );
+      this.sedesOriginales.filter(
+        sede =>
+
+          (sede.nombre ?? '')
+            .toLowerCase()
+            .includes(valor)
+
+          ||
+
+          (sede.direccion ?? '')
+            .toLowerCase()
+            .includes(valor)
+
+          ||
+
+          (sede.telefono ?? '')
+            .toLowerCase()
+            .includes(valor)
+
+      );
 
   }
 
-  solicitarCambioEstado(sede: SedeJudicial): void {
+
+  solicitarCambioEstado(
+    sede: SedeJudicial
+  ): void {
+
     this.sedeParaCambiarEstado = sede;
+
     this.mostrarConfirmacion = true;
+
   }
+
 
   confirmarCambioEstado(): void {
+
     if (!this.sedeParaCambiarEstado) {
+
       return;
+
     }
-    
-    const sede = this.sedeParaCambiarEstado;
+
+
+    const sede =
+      this.sedeParaCambiarEstado;
+
+
     const nuevoEstado =
-    sede.activo === 'A';
-    
+      sede.activo === 'A';
+
+
     this.sedeService
-    .cambiarEstado(
-      sede.id,
-      nuevoEstado
-    )
-    .subscribe({
-      next: () => {
-        this.cerrarConfirmacion();
-        this.cargarSedes();
-      },
-      
-      error: (error) => {
-        console.error(
-          'Error cambiando estado',
-          error
-        );
-        this.cerrarConfirmacion();
-      }
-    });
+      .cambiarEstado(
+        sede.id,
+        nuevoEstado
+      )
+      .subscribe({
+
+        next: () => {
+
+          this.cerrarConfirmacion();
+
+          this.cargarSedes();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error cambiando estado:',
+            error
+          );
+
+          this.cerrarConfirmacion();
+
+        }
+
+      });
+
   }
 
+
   cerrarConfirmacion(): void {
+
     this.mostrarConfirmacion = false;
+
     this.sedeParaCambiarEstado = undefined;
+
   }
 
 }

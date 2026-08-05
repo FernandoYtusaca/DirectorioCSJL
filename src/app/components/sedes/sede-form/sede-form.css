@@ -5,9 +5,17 @@
     border: 1px solid #ddd;
 }
 
+.mapa-preview label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
 
 .mapa-preview iframe {
     display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 6px;
 }
 
 .error{
@@ -19,4 +27,13 @@
 .obligatorio {
     color: #d32f2f;
     font-weight: bold;
+}
+
+.btn-guardar:disabled,
+.btn-cancelar:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
 }

@@ -23,6 +23,8 @@ export class DistritoSelectorComponent implements OnInit {
 
   distritos: Distrito[] = [];
 
+  cargando = false;
+
   constructor(
     private distritoService: DistritoService
   ) {}
@@ -43,6 +45,7 @@ export class DistritoSelectorComponent implements OnInit {
           'Error cargando distritos',
           error
         );
+        this.cargando = false;
       }
     });
   }

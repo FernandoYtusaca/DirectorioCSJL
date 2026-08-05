@@ -1,103 +1,156 @@
-<div class="form-container">
-    <h2>
-        {{ modo === 'crear'
-            ? 'Nueva Sede Judicial'
-            : 'Editar Sede Judicial'
-        }}
-    </h2>
+<form
+    class="sede-form"
+    (ngSubmit)="guardar()"
+>
 
-    <div class="campo">
-        <label>
-            Nombre de la sede <span class="obligatorio">*</span>
-        </label>
+    <div class="form-header">
 
-        <input type="text" [(ngModel)]="formulario.nombre" maxlength="150" required>
+        <h2>
+            {{ modo === 'crear'
+                ? 'Nueva sede judicial'
+                : 'Editar sede judicial'
+            }}
+        </h2>
+
     </div>
 
 
-    <div class="campo">
+    <div class="form-body">
 
-        <label>
-            Dirección
-        </label>
+        <div class="campo">
 
-        <input
-            type="text"
-            [(ngModel)]="formulario.direccion" maxlength="250" required
+            <label>
+                Nombre
+                <span class="obligatorio">*</span>
+            </label>
+
+            <input
+                type="text"
+                [(ngModel)]="formulario.nombre"
+                name="nombre"
+                maxlength="150"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>
+                Dirección
+                <span class="obligatorio">*</span>
+            </label>
+
+            <input
+                type="text"
+                [(ngModel)]="formulario.direccion"
+                name="direccion"
+                maxlength="250"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>
+                Teléfono
+                <span class="obligatorio">*</span>
+            </label>
+
+            <input
+                type="text"
+                [(ngModel)]="formulario.telefono"
+                name="telefono"
+                maxlength="20"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>
+                Distrito
+                <span class="obligatorio">*</span>
+            </label>
+
+            <app-distrito-selector
+                [distritoSeleccionado]="formulario.distritoId"
+                (distritoChange)="formulario.distritoId = $event"
+            >
+            </app-distrito-selector>
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>
+                Ubicación mapa
+            </label>
+
+            <input
+                type="text"
+                [(ngModel)]="formulario.mapa"
+                name="mapa"
+                placeholder="URL del mapa"
+                (ngModelChange)="actualizarMapa()"
+            >
+
+        </div>
+
+
+        <div
+            class="mapa-preview"
+            *ngIf="mapaSeguro"
         >
 
-    </div>
-
-
-
-    <div class="campo">
-
-        <label>
-            Teléfono
-        </label>
-
-        <input
-            type="text"
-            [(ngModel)]="formulario.telefono" maxlength="20"
-        >
-
-    </div>
-
-
-
-    <div class="campo">
-        <label>
-            Distrito
-        </label>
-
-        <app-distrito-selector [distritoSeleccionado]="formulario.distritoId" (distritoChange)="formulario.distritoId = $event">
-        </app-distrito-selector>
-    </div>
-
-    <div class="campo">
-        <label>
-            Ubicación mapa
-        </label>
-
-        <input type="text" [(ngModel)]="formulario.mapa" (input)="actualizarMapa()" placeholder="URL del mapa">
-        
-        <div class="mapa-preview" *ngIf="mapaSeguro">
-            <iframe [src]="mapaSeguro" width="100%" height="250" style="border:0" loading="lazy">
+            <iframe
+                [src]="mapaSeguro"
+                width="100%"
+                height="250"
+                frameborder="0"
+                loading="lazy"
+            >
             </iframe>
+
         </div>
 
     </div>
 
-    <div class="campo">
-        <label>
-            Estado
-        </label>
-        
-        <select [(ngModel)]="formulario.activo">
-            <option value="A">
-                Activo
-            </option>
-            <option value="I">
-                Inactivo
-            </option>
-        </select>
 
-    </div>
+    <div class="form-footer">
 
+        <button
+            type="button"
+            class="btn-cancelar"
+            (click)="cancelar()"
+            [disabled]="guardando"
+        >
 
-
-    <div class="acciones">
-
-
-        <button type="button" (click)="cancelar()" [disabled]="guardando">
             Cancelar
+
         </button>
 
-        <button (click)="guardar()" [disabled]="guardando">
-            {{ guardando ? 'Guardando...' : 'Guardar' }}
+
+        <button
+            type="submit"
+            class="btn-guardar"
+            [disabled]="guardando"
+        >
+
+            {{
+                guardando
+                    ? 'Guardando...'
+                    : 'Guardar'
+            }}
+
         </button>
 
     </div>
 
-
-</div>
+</form>
