@@ -23,7 +23,7 @@ export class ModalDetalleDependencia implements OnInit{
     private anexoService: AnexoService
   ) {}
 
-   ngOnInit(): void {
+  ngOnInit(): void {
 
     this.anexoService
       .listarPorDependencia(this.dependencia.id)

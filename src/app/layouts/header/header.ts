@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -7,5 +9,15 @@ import { Component } from '@angular/core';
   styleUrl: './header.css',
 })
 export class Header {
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ){}
+
+  cerrarSesion(){
+    this.authService.cerrarSesion();
+    this.router.navigate(['/login']);
+  }
 
 }

@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 
 import { Header } from './layouts/header/header';
 import { Sidebar } from './layouts/sidebar/sidebar';
@@ -12,5 +12,24 @@ import { Footer } from './layouts/footer/footer';
   styleUrl: './app.css'
 })
 export class App {
+
   protected readonly title = signal('DirectoriosCsjl');
+
+  rutaActual = '';
+
+  constructor(private router: Router){
+    
+    this.rutaActual = this.router.url;
+    
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd){
+        this.rutaActual = event.urlAfterRedirects;
+      }
+    });
+  }
+
+  esLogin(): boolean {
+    return this.rutaActual === '/login';
+  }
+
 }

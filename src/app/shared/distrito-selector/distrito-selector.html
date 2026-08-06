@@ -1,0 +1,22 @@
+<select
+    [value]="distritoSeleccionado"
+    (change)="seleccionarDistrito($event)"
+>
+
+
+    <option value="0">
+        Seleccione distrito
+    </option>
+
+
+    <option
+        *ngFor="let distrito of distritos"
+        [value]="distrito.id"
+    >
+
+        {{ distrito.nombre }}
+
+    </option>
+
+
+</select>

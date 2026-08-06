@@ -1,0 +1,19 @@
+<div class="buscador">
+
+    <input
+        type="text"
+        [(ngModel)]="valor"
+        [placeholder]="placeholder"
+        (input)="onBuscar()"
+    >
+
+    <button
+        type="button"
+        *ngIf="valor"
+        (click)="limpiar()"
+        title="Limpiar búsqueda"
+    >
+        ×
+    </button>
+
+</div>

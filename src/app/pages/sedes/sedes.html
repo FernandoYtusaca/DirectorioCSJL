@@ -1,1 +1,169 @@
-<p>sedes works!</p>
+<section class="sedes-container">
+
+    <div class="header-seccion">
+
+        <div>
+
+            <h1>
+                Sedes Judiciales
+            </h1>
+
+            <p>
+                Administración de sedes registradas
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-nueva"
+            (click)="nuevaSede()"
+        >
+
+            + Nueva Sede
+
+        </button>
+
+    </div>
+
+
+    <div class="herramientas">
+
+        <app-buscador
+            placeholder="Buscar sede..."
+            (buscar)="filtrar($event)"
+        >
+        </app-buscador>
+
+    </div>
+
+
+    <div
+        class="cargando"
+        *ngIf="cargando"
+    >
+
+        Cargando sedes...
+
+    </div>
+
+
+    <div
+        class="tabla-container"
+        *ngIf="!cargando"
+    >
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Distrito</th>
+                    <th>Teléfono</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let sede of sedes">
+
+                    <td>{{ sede.nombre }}</td>
+                    <td>{{ sede.direccion }}</td>
+                    <td>{{ obtenerNombreDistrito(sede.distritoId) }}</td>
+                    <td>{{ sede.telefono }}</td>
+
+                    <td>
+                        <app-estado-badge [estado]="sede.activo"></app-estado-badge>
+                    </td>
+
+                    <td class="acciones">
+                        <button type="button" class="btn-ver" (click)="abrirDetalle(sede)" title="Ver detalles">
+                            👁
+                        </button>
+
+                        <button type="button" class="btn-editar" (click)="editarSede(sede)" title="Editar sede">
+                            ✏
+                        </button>
+                        
+                        <button type="button" class="btn-estado" (click)="solicitarCambioEstado(sede)" title="{{sede.activo === 'A'? 'Desactivar sede': 'Activar sede'}}">
+                            {{sede.activo === 'A'? 'Desactivar': 'Activar'}}
+                        </button>
+                    </td>
+
+                </tr>
+
+
+                <tr *ngIf="sedes.length === 0">
+                    <td colspan="6" class="sin-datos">
+                        No existen sedes registradas.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- Formulario Crear / Editar -->
+
+<div
+    class="modal-fondo"
+    *ngIf="mostrarFormulario"
+>
+
+    <div class="modal">
+
+        <app-sede-form
+            [modo]="modoFormulario"
+            [sede]="sedeSeleccionada"
+            (guardado)="guardarSede()"
+            (cancelado)="cerrarFormulario()"
+        >
+        </app-sede-form>
+
+    </div>
+
+</div>
+
+<app-modal-detalle-sede *ngIf="mostrarDetalle && sedeDetalle" [sede]="sedeDetalle" [nombreDistrito]="distritoDetalle" (cerrar)="cerrarDetalle()"></app-modal-detalle-sede>
+
+
+<!-- Confirmación de cambio de estado -->
+
+<app-confirm-dialog
+    *ngIf="mostrarConfirmacion"
+
+    [titulo]="
+        sedeParaCambiarEstado?.activo === 'A'
+            ? 'Desactivar sede'
+            : 'Activar sede'
+    "
+
+    [mensaje]="
+        sedeParaCambiarEstado?.activo === 'A'
+            ? '¿Está seguro de desactivar esta sede?'
+            : '¿Está seguro de activar esta sede?'
+    "
+
+    [textoCancelar]="'Cancelar'"
+
+    [textoConfirmar]="
+        sedeParaCambiarEstado?.activo === 'A'
+            ? 'Desactivar'
+            : 'Activar'
+    "
+
+    (confirmado)="confirmarCambioEstado()"
+
+    (cancelado)="cerrarConfirmacion()"
+>
+</app-confirm-dialog>

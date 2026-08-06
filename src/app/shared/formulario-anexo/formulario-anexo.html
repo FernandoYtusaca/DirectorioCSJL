@@ -1,1 +1,63 @@
-<p>formulario-anexo works!</p>
+<div class="formulario">
+
+    <div class="campo">
+
+        <label>Dependencia</label>
+
+        @if(!modoEdicion){
+            <select [(ngModel)]="anexo.dependenciaId">
+                <option [ngValue]="0">
+                Seleccione dependencia
+                </option>
+
+                @for(dep of dependencias; track dep.id){
+                    <option [ngValue]="dep.id">
+                    {{dep.nombre}}
+                    </option>
+                }
+            </select>
+        }
+        @else {
+            <input
+            type="text"
+            [value]="anexo.dependenciaNombre"
+            disabled>
+        }
+
+    </div>
+
+    <div class="campo">
+
+        <label>Número de anexo</label>
+
+        <input
+        type="text"
+        maxlength="5"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        (keypress)="soloNumeros($event)"
+        [(ngModel)]="anexo.numero"
+        placeholder="Ingrese número de anexo">
+
+    </div>
+
+
+    <div class="acciones">
+
+        <button
+        class="btn-cancelar"
+        (click)="cancelarEdicion()">
+        Cancelar
+        </button>
+
+
+        <button
+        class="btn-guardar"
+        (click)="guardarCambios()">
+        Guardar
+        </button>
+
+    </div>
+
+
+</div>

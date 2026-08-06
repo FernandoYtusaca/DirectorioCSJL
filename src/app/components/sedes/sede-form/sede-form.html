@@ -1,0 +1,138 @@
+<form
+    class="sede-form"
+    (ngSubmit)="guardar()"
+>
+
+    <div class="form-header">
+
+        <h2>
+            {{ modo === 'crear'
+                ? 'Nueva sede judicial'
+                : 'Editar sede judicial'
+            }}
+        </h2>
+
+    </div>
+
+
+    <div class="form-body">
+
+        <div class="campo">
+
+            <label>
+                Nombre
+                <span class="obligatorio">*</span>
+            </label>
+
+            <input
+                type="text"
+                [(ngModel)]="formulario.nombre"
+                name="nombre"
+                maxlength="150"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>
+                Dirección
+                <span class="obligatorio">*</span>
+            </label>
+
+            <input
+                type="text"
+                [(ngModel)]="formulario.direccion"
+                name="direccion"
+                maxlength="250"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>
+                Teléfono
+                <span class="obligatorio">*</span>
+            </label>
+
+            <input
+                type="text"
+                [(ngModel)]="formulario.telefono"
+                name="telefono"
+                maxlength="20"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>
+                Distrito
+                <span class="obligatorio">*</span>
+            </label>
+
+            <app-distrito-selector
+                [distritoSeleccionado]="formulario.distritoId"
+                (distritoChange)="formulario.distritoId = $event"
+            >
+            </app-distrito-selector>
+
+        </div>
+
+
+        <div class="campo">
+            <label>
+                Ubicación mapa
+            </label>
+            <input type="text" [(ngModel)]="formulario.mapa" name="mapa" placeholder="URL de Google Maps">
+            <div class="mapa-accion" *ngIf="formulario.mapa">
+                <a [href]="formulario.mapa" target="_blank" rel="noopener noreferrer" class="btn-mapa">
+                    📍 Ver ubicación en Google Maps
+                </a>
+            </div>
+        </div>
+
+
+        
+
+    </div>
+
+
+    <div class="form-footer">
+
+        <button
+            type="button"
+            class="btn-cancelar"
+            (click)="cancelar()"
+            [disabled]="guardando"
+        >
+
+            Cancelar
+
+        </button>
+
+
+        <button
+            type="submit"
+            class="btn-guardar"
+            [disabled]="guardando"
+        >
+
+            {{
+                guardando
+                    ? 'Guardando...'
+                    : 'Guardar'
+            }}
+
+        </button>
+
+    </div>
+
+</form>

@@ -7,6 +7,9 @@ import { FiltrosDependencias } from '../../filtros/filtros-dependencias/filtros-
 import { ModalDetalleDependencia } from './modales/modal-detalle-dependencia/modal-detalle-dependencia';
 import { ModadlEditarDependencia } from './modales/modal-editar-dependencia/modal-editar-dependencia';
 import { ModalRegistrarDependencia } from './modales/modal-registrar-dependencia/modal-registrar-dependencia';
+import { AuthService } from '../../services/auth.service';
+
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -20,8 +23,8 @@ export class Dependencias implements OnInit{
   dependencias: Dependencia[] = [];
   dependenciasOriginales: Dependencia[] = [];
 
-  // Simulación del rol. TEMPORAL
-  rol = 'ADMIN';
+  usuario: any;
+  rol = '';
 
   //modal
   mostrarModal = false;
@@ -35,12 +38,16 @@ export class Dependencias implements OnInit{
   
 
   constructor(
-    private dependenciaService: DependenciaService
+    private dependenciaService: DependenciaService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
 
-    if (this.rol === 'ADMIN') {
+    this.usuario = this.authService.obtenerUsuario();
+    this.rol = this.usuario?.rol?.trim().toUpperCase();
+
+    if (this.rol === 'ADMINISTRADOR') {
 
       this.dependenciaService.listarTodas()
         .subscribe(data => {
@@ -111,13 +118,42 @@ export class Dependencias implements OnInit{
     }
 
 
-    cambiarEstado(dep: Dependencia){
+    cambiarEstado(dep: Dependencia) {
+      const accion = dep.activo === 'S'
+        ? 'desactivar'
+        : 'activar';
 
-      console.log("Click", dep)
-      this.dependenciaService.cambiarEstado(dep.id)
-        .subscribe(data => {
-          console.log(data);
-        dep.activo = data.activo;
+      Swal.fire({
+        title: `¿Desea ${accion} esta dependencia?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+
+        if (result.isConfirmed) {
+          this.dependenciaService
+            .cambiarEstado(dep.id)
+            .subscribe({
+              next: (data) => {
+                dep.activo = data.activo;
+                Swal.fire({
+                  icon: 'success',
+                  title: '¡Estado actualizado!',
+                  text: 'El estado de la dependencia fue actualizado correctamente.',
+                  confirmButtonText: 'Aceptar'
+                });
+              },
+              error: (error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: error.error.message,
+                  confirmButtonText: 'Aceptar'
+                });
+              }
+            });
+        }
       });
     }
 
@@ -140,20 +176,48 @@ export class Dependencias implements OnInit{
     }
 
     guardarEdicion(dep: Dependencia){
-      this.dependenciaService
-      .actualizar(dep.id, dep)
-      .subscribe(data => {
-        const index = this.dependencias.findIndex(d => d.id === data.id);
-        if(index !== -1){
-          this.dependencias[index] = data;
-        }
-        const indexOriginal = this.dependenciasOriginales.findIndex(d => d.id === data.id);
-        if(indexOriginal !== -1){
-          this.dependenciasOriginales[indexOriginal] = data;
-        }
+      Swal.fire({
+        title: '¿Desea guardar los cambios?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, guardar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.dependenciaService
+          .actualizar(dep.id, dep)
+          .subscribe({
+            next: (data) => {
 
-        this.cerrarEditar();
-      })
+              const index = this.dependencias.findIndex(d => d.id === data.id);
+              if(index !== -1){
+                this.dependencias[index] = data;
+              }
+
+              const indexOriginal = this.dependenciasOriginales.findIndex(d => d.id === data.id);
+              if(indexOriginal !== -1){
+                this.dependenciasOriginales[indexOriginal] = data;
+              }
+              this.cerrarEditar();
+
+              Swal.fire({
+                icon: 'success',
+                title: '¡Actualizado!',
+                text: 'La dependencia fue actualizada correctamente.',
+                confirmButtonText: 'Aceptar'
+              });
+            },
+            error: (error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al actualizar',
+                text: error.error.message,
+                confirmButtonText: 'Aceptar'
+              });
+            }
+          }); 
+        }
+      });
     }
 
     //Registrar
@@ -198,12 +262,39 @@ export class Dependencias implements OnInit{
     }
 
     guardarNuevaDependencia(dep: Dependencia) {
-      this.dependenciaService.guardar(dep)
-        .subscribe(data => {
-          this.dependencias.push(data);
-          this.dependenciasOriginales.push(data);
-          this.cerrarRegistrar();
-        });
+      Swal.fire({
+        title: '¿Desea registrar esta dependencia?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, registrar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if(result.isConfirmed){
+          this.dependenciaService.guardar(dep).subscribe({
+            next: () => {
+              this.dependenciaService.listarTodas().subscribe(lista => {
+                this.dependencias = lista;
+                this.dependenciasOriginales = lista;
+              });
+              this.cerrarRegistrar();
+              Swal.fire({
+                icon: 'success',
+                title: '¡Registro exitoso!',
+                text: 'La dependencia fue registrada correctamente',
+                confirmButtonText: 'Aceptar'
+              });
+            },
+            error: (error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.error.message,
+                confirmButtonText: 'Aceptar'
+              });
+            }
+          });
+        }
+      });
     }
 
 }

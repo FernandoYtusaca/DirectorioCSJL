@@ -15,6 +15,8 @@ import { NivelJurisdiccionalService } from '../../services/nivelJurisdiccional.s
 import { EspecialidadService } from '../../services/especialidad.service';
 import { CoordinacionService } from '../../services/coordinacion.service';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-formulario-dependencia',
   imports: [CommonModule, FormsModule],
@@ -157,7 +159,91 @@ export class FormularioDependencia implements OnInit {
   }
 
   guardarCambios(){
+
+    if(!this.dependencia.nombre || this.dependencia.nombre.trim() === ''){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campo obligatorio',
+        text: 'El nombre de la dependencia es obligatorio.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
+    if(!this.dependencia.piso || this.dependencia.piso.trim() === ''){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campo obligatorio',
+        text: 'El piso es obligatorio.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
+    if(!this.dependencia.sedeJudicialId){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campo obligatorio',
+        text: 'Debe seleccionar una sede judicial.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
+    if(!this.dependencia.tipoDependenciaId){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campo obligatorio',
+        text: 'Debe seleccionar el tipo de dependencia.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
+    if(this.esJurisdiccional){
+      if(!this.dependencia.nivelJurisdiccionalId){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Campo obligatorio',
+          text: 'Debe seleccionar el nivel jurisdiccional.',
+          confirmButtonText: 'Aceptar'
+        });
+        return;
+      }
+      if(!this.dependencia.especialidadId){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Campo obligatorio',
+          text: 'Debe seleccionar una especialidad.',
+          confirmButtonText: 'Aceptar'
+        });
+        return;
+      }
+    }
+
+    if(this.esAdministrativa){
+      if(!this.dependencia.unidadAdministrativaId){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Campo obligatorio',
+          text: 'Debe seleccionar una unidad administrativa.',
+          confirmButtonText: 'Aceptar'
+        });
+        return;
+      }
+      if(!this.dependencia.coordinacionId){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Campo obligatorio',
+          text: 'Debe seleccionar una coordinación.',
+          confirmButtonText: 'Aceptar'
+        });
+        return;
+      }
+    }
+
     this.guardar.emit(this.dependencia);
+
   }
 
   cancelarEdicion(){

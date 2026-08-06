@@ -1,277 +1,196 @@
-<div class="formulario">
+<form #formDependencia="ngForm" class="formulario">
 
-
-  <!-- NOMBRE -->
   <div class="campo">
-
     <label>Nombre de dependencia</label>
-
     <input
       type="text"
-      [(ngModel)]="dependencia.nombre">
+      name="nombre"
+      [(ngModel)]="dependencia.nombre"
+      required
+      minlength="3"
+      #nombre="ngModel">
 
+      @if(nombre.invalid && nombre.touched){
+        <small class="error">
+          El nombre es obligatorio.
+        </small>
+      }
+
+       @if(nombre.errors?.['minlength']){
+        <small class="error">
+          El nombre debe tener mínimo 3 caracteres.
+        </small>
+      }
   </div>
 
-
-
-  <!-- PISO -->
   <div class="campo">
-
     <label>Piso</label>
-
     <input
       type="text"
-      [(ngModel)]="dependencia.piso">
+      name="piso"
+      [(ngModel)]="dependencia.piso"
+      required
+      #piso="ngModel">
+
+      @if(piso.invalid && piso.touched){
+        <small class="error">
+          El piso es obligatorio.
+        </small>
+      }
 
   </div>
 
-
-
-  <!-- SEDE -->
   <div class="campo">
-
     <label>Sede Judicial</label>
-
     <select
-      [(ngModel)]="dependencia.sedeJudicialId">
+      name="sedeJudicialId"
+      [(ngModel)]="dependencia.sedeJudicialId"
+      required
+      #sede="ngModel">
 
+      @if(sede.invalid && sede.touched){
+        <small class="error">
+          Debe seleccionar una sede judicial.
+        </small>
+      }
 
       <option [ngValue]="undefined">
         Seleccione sede
       </option>
 
-
       @for(sede of sedes; track sede.id){
-
         <option [ngValue]="sede.id">
-
           {{sede.nombre}}
-
         </option>
-
       }
-
-
     </select>
-
   </div>
 
-
-
-
-  <!-- TIPO DEPENDENCIA -->
   <div class="campo">
-
     <label>Tipo de Dependencia</label>
-
-
     <select
+      name="tipoDependenciaId"
       [(ngModel)]="dependencia.tipoDependenciaId"
-      (change)="cambioTipo()">
+      (change)="cambioTipo()"
+      required
+      #tipo="ngModel">
 
+      @if(tipo.invalid && tipo.touched){
+        <small class="error">
+          Debe seleccionar el tipo de dependencia.
+        </small>
+      }
 
       <option [ngValue]="undefined">
         Seleccione tipo
       </option>
 
-
       @for(tipo of tipos; track tipo.id){
-
         <option [ngValue]="tipo.id">
-
           {{tipo.nombre}}
-
         </option>
-
       }
-
-
     </select>
-
-
   </div>
 
-
-
-
-
-  <!-- JURISDICCIONAL -->
-
   @if(esJurisdiccional){
-
-
     <div class="campo">
-
       <label>Nivel Jurisdiccional</label>
-
-
       <select
-        [(ngModel)]="dependencia.nivelJurisdiccionalId" (change)="cambioNivel()">
-
+        name="nivelJurisdiccionalId"
+        [(ngModel)]="dependencia.nivelJurisdiccionalId" 
+        (change)="cambioNivel()"
+        required>
 
         <option [ngValue]="undefined">
           Seleccione nivel
         </option>
 
-
         @for(nivel of niveles; track nivel.id){
-
           <option [ngValue]="nivel.id">
-
             {{nivel.nombre}}
-
           </option>
-
         }
-
-
       </select>
-
-
     </div>
 
-
-
-
     <div class="campo">
-
       <label>Especialidad</label>
-
-
       <select
-        [(ngModel)]="dependencia.especialidadId">
-
+        name="especialidadId"
+        [(ngModel)]="dependencia.especialidadId"
+        required>
 
         <option [ngValue]="undefined">
           Seleccione especialidad
         </option>
 
-
         @for(especialidad of especialidades; track especialidad.id){
-
           <option [ngValue]="especialidad.id">
-
             {{especialidad.nombre}}
-
           </option>
-
         }
-
-
       </select>
-
-
     </div>
-
-
   }
 
-
-
-
-
-
-
-  <!-- ADMINISTRATIVA -->
-
   @if(esAdministrativa){
-
-
     <div class="campo">
-
       <label>Unidad Administrativa</label>
-
-
       <select
-        [(ngModel)]="dependencia.unidadAdministrativaId" (change)="cambioUnidad()">
-
+        name="unidadAdministrativaId"
+        [(ngModel)]="dependencia.unidadAdministrativaId" 
+        (change)="cambioUnidad()"
+        required>
 
         <option [ngValue]="undefined">
           Seleccione unidad
         </option>
 
-
         @for(unidad of unidades; track unidad.id){
-
           <option [ngValue]="unidad.id">
-
             {{unidad.nombre}}
-
           </option>
-
         }
-
-
       </select>
-
-
     </div>
 
-
-
-
-
     <div class="campo">
-
       <label>Coordinación</label>
-
-
       <select
-        [(ngModel)]="dependencia.coordinacionId">
-
+        name="coordinacionId"
+        [(ngModel)]="dependencia.coordinacionId"
+        required>
 
         <option [ngValue]="undefined">
           Seleccione coordinación
         </option>
 
-
         @for(coordinacion of coordinaciones; track coordinacion.id){
-
           <option [ngValue]="coordinacion.id">
-
             {{coordinacion.nombre}}
-
           </option>
-
         }
-
-
       </select>
-
-
     </div>
-
-
   }
 
-
-
-
-
   <div class="acciones">
-
 
     <button
       class="btn-cancelar"
       (click)="cancelarEdicion()">
-
       Cancelar
-
     </button>
-
-
 
     <button
       class="btn-guardar"
       (click)="guardarCambios()">
-
       Guardar cambios
-
     </button>
-
 
   </div>
 
 
-</div>
+</form>
 

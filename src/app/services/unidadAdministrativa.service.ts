@@ -8,6 +8,7 @@ import { UnidadAdministrativa } from '../models/unidadAdministrativa.model';
 @Injectable({
   providedIn: 'root'
 })
+
 export class UnidadAdministrativaService {
 
   private apiUrl = `${environment.apiUrl}/api/unidadAdministrativa`;

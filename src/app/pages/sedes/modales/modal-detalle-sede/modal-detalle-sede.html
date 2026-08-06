@@ -1,0 +1,175 @@
+<div class="modal-overlay">
+
+<div class="modal">
+
+    <div class="modal-header">
+
+        <h2>
+            Detalle de Sede Judicial
+        </h2>
+
+        <button
+            type="button"
+            class="btn-cerrar-x"
+            (click)="cerrarModal()"
+            aria-label="Cerrar"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+        <div class="detalle-item">
+
+            <span class="detalle-label">
+                Nombre
+            </span>
+
+            <span class="detalle-valor">
+                {{ sede.nombre }}
+            </span>
+
+        </div>
+
+
+        <div class="detalle-item">
+
+            <span class="detalle-label">
+                Dirección
+            </span>
+
+            <span class="detalle-valor">
+                {{ sede.direccion }}
+            </span>
+
+        </div>
+
+
+        <div class="detalle-item">
+
+            <span class="detalle-label">
+                Teléfono
+            </span>
+
+            <span class="detalle-valor">
+                {{ sede.telefono }}
+            </span>
+
+        </div>
+
+
+        <div class="detalle-item">
+
+            <span class="detalle-label">
+                Distrito
+            </span>
+
+            <span class="detalle-valor">
+                {{ nombreDistrito }}
+            </span>
+
+        </div>
+
+
+        <div class="detalle-item">
+
+            <span class="detalle-label">
+                Estado
+            </span>
+
+            <span
+                class="estado"
+                [class.estado-activo]="sede.activo === 'A'"
+                [class.estado-inactivo]="sede.activo !== 'A'"
+            >
+
+                {{
+                    sede.activo === 'A'
+                        ? 'Activo'
+                        : 'Inactivo'
+                }}
+
+            </span>
+
+        </div>
+
+
+        <div class="detalle-item">
+
+            <span class="detalle-label">
+                Ubicación
+            </span>
+
+            <span class="detalle-valor">
+
+                <ng-container *ngIf="sede.mapa; else sinMapa">
+
+                    <a
+                        [href]="sede.mapa"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Ver ubicación en Google Maps
+                    </a>
+
+                </ng-container>
+
+                <ng-template #sinMapa>
+
+                    No registrada
+
+                </ng-template>
+
+            </span>
+
+        </div>
+
+
+        <div class="detalle-item">
+
+            <span class="detalle-label">
+                Fecha de creación
+            </span>
+
+            <span class="detalle-valor">
+                {{ sede.fechaCreacion || 'No disponible' }}
+            </span>
+
+        </div>
+
+
+        <div class="detalle-item">
+
+            <span class="detalle-label">
+                Hora de creación
+            </span>
+
+            <span class="detalle-valor">
+                {{ sede.horaCreacion || 'No disponible' }}
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+        <button
+            type="button"
+            class="btn-cerrar-modal"
+            (click)="cerrarModal()"
+        >
+
+            Cerrar
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>

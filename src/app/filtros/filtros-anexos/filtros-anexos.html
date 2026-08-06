@@ -1,1 +1,141 @@
-<p>filtros-anexos works!</p>
+<div class="filtros-container">
+
+  <div class="campo">
+
+    <label>Sede Judicial</label>
+
+    <select [(ngModel)]="sedeSeleccionada"
+            (change)="emitirFiltros()">
+      <option [ngValue]="undefined">
+        Todas
+      </option>
+      @for(sede of sedes; track sede.id){
+        <option [ngValue]="sede.id">
+          {{ sede.nombre }}
+        </option>
+      }
+    </select>
+
+  </div>
+
+  <div class="campo">
+
+    <label>Tipo</label>
+    <select
+      [(ngModel)]="tipoSeleccionado"
+      (change)="cambioTipo()">
+      <option [ngValue]="undefined">
+        Todos
+      </option>
+      @for(tipo of tipos; track tipo.id){
+        <option [ngValue]="tipo.id">
+          {{ tipo.nombre }}
+        </option>
+      }
+    </select>
+
+  </div>
+
+  @if(esJurisdiccional){
+    <div class="campo">
+
+      <label>Nivel</label>
+
+      <select
+        [(ngModel)]="nivelSeleccionado"
+        (change)="cambioNivel()">
+
+        <option [ngValue]="undefined">
+          Todos
+        </option>
+
+        @for(nivel of niveles; track nivel.id){
+          <option [ngValue]="nivel.id">
+            {{ nivel.nombre }}
+          </option>
+        }
+
+      </select>
+
+    </div>
+
+    <div class="campo">
+      <label>Especialidad</label>
+
+      <select
+        [(ngModel)]="especialidadSeleccionada"
+        (change)="emitirFiltros()">
+        <option [ngValue]="undefined">
+          Todas
+        </option>
+        @for(especialidad of especialidades; track especialidad.id){
+          <option [ngValue]="especialidad.id">
+            {{ especialidad.nombre }}
+          </option>
+        }
+      </select>
+
+    </div>
+
+  }
+
+
+  @if(esAdministrativa){
+    <div class="campo">
+      <label>Unidad Administrativa</label>
+      <select
+        [(ngModel)]="unidadSeleccionada"
+        (change)="cambioUnidad()">
+        <option [ngValue]="undefined">
+          Todas
+        </option>
+        @for(unidad of unidades; track unidad.id){
+          <option [ngValue]="unidad.id">
+            {{ unidad.nombre }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="campo">
+      <label>Coordinación</label>
+      <select
+        [(ngModel)]="coordinacionSeleccionada"
+        (change)="emitirFiltros()">
+        <option [ngValue]="undefined">
+          Todas
+        </option>
+        @for(coordinacion of coordinaciones; track coordinacion.id){
+          <option [ngValue]="coordinacion.id">
+            {{ coordinacion.nombre }}
+          </option>
+        }
+      </select>
+    </div>
+  }
+
+  <div class="campo campo-busqueda">
+    <label>Dependencia</label>
+    <input
+      type="text"
+      [(ngModel)]="nombreBusqueda"
+      (input)="emitirFiltros()"
+      placeholder="Buscar dependencia">
+  </div>
+
+  <div class="acciones">
+    <button
+      class="btn-filtrar"
+      (click)="emitirFiltros()">
+      Buscar
+    </button>
+
+    <button
+      class="btn-limpiar"
+      (click)="limpiarFiltros()">
+      Limpiar
+    </button>
+    
+  </div>
+
+</div>

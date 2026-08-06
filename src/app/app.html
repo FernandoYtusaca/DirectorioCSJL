@@ -1,11 +1,22 @@
-<app-header></app-header>
+@if(esLogin()) {
 
-<div class = "layout">
-    <app-sidebar></app-sidebar>
-    
-    <main class="content-body">
-        <router-outlet></router-outlet>
-    </main>
-</div>
+  <router-outlet></router-outlet>
 
-<app-footer></app-footer>
+}
+@else {
+
+  <app-header></app-header>
+
+  <div class="layout">
+
+      <app-sidebar></app-sidebar>
+
+      <main class="content-body">
+          <router-outlet></router-outlet>
+      </main>
+
+  </div>
+
+  <app-footer></app-footer>
+
+}

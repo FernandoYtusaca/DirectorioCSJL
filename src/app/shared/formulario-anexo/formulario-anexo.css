@@ -1,0 +1,95 @@
+.formulario{
+
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  padding:20px;
+
+}
+
+
+.campo{
+
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+
+}
+
+
+.campo label{
+
+  font-weight:600;
+  color:#333;
+
+}
+
+
+.campo input,
+.campo select{
+
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+
+}
+
+
+.campo input:focus,
+.campo select:focus{
+
+  outline:none;
+  border-color:#3f51b5;
+
+}
+
+
+
+.acciones{
+
+  display:flex;
+  justify-content:flex-end;
+  gap:15px;
+  margin-top:20px;
+
+}
+
+
+
+.btn-cancelar{
+
+  padding:10px 20px;
+  border:none;
+  border-radius:6px;
+  background:#ccc;
+  cursor:pointer;
+
+}
+
+
+
+.btn-guardar{
+
+  padding:10px 20px;
+  border:none;
+  border-radius:6px;
+  background:#3f51b5;
+  color:white;
+  cursor:pointer;
+
+}
+
+
+.btn-guardar:hover{
+
+  opacity:0.9;
+
+}
+
+
+.btn-cancelar:hover{
+
+  opacity:0.8;
+
+}

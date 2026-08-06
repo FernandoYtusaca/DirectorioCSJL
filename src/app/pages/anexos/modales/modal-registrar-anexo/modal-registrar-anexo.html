@@ -1,1 +1,23 @@
-<p>modal-registrar-anexo works!</p>
+<div class="modal-overlay">
+
+  <div class="modal">
+
+    <div class="modal-header">
+      <h2>Registrar Anexo</h2>
+    </div>
+
+
+    <div class="modal-body">
+
+      <app-formulario-anexo
+        [anexo]="nuevoAnexo"
+        (guardar)="guardarAnexo($event)"
+        (cancelar)="cerrarModal()">
+      </app-formulario-anexo>
+
+    </div>
+
+
+  </div>
+
+</div>

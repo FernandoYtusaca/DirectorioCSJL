@@ -5,11 +5,13 @@
   </app-filtros-dependencias>
   <br>
 
+  @if(rol === 'ADMINISTRADOR'){
   <div class="table-actions">
     <button class="=btn-agregar" (click)="abrirRegistrar()">
       Agregar Dependencia
     </button>
   </div>
+  }
   <br>
 
   <table class="custom-table">
@@ -111,7 +113,7 @@
               👁
             </button>
 
-
+            @if(rol === 'ADMINISTRADOR'){
             <button class="action-btn edit-btn" (click)="abrirEditar(dependencia)">
               ✏
             </button>
@@ -120,7 +122,7 @@
             <button class="action-btn delete-btn" (click)="cambiarEstado(dependencia)">
               {{ dependencia.activo === 'S' ? '🗑' : '☞'}} 
             </button>
-
+            }
 
           </td>
 

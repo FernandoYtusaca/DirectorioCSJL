@@ -1,1 +1,40 @@
-<p>login works!</p>
+<div class="login-container">
+
+  <div class="login-card">
+
+    <h2>Directorio CSJLI</h2>
+    <p class="subtitulo">
+      Iniciar sesión
+    </p>
+
+    <div class="campo">
+      <label>Correo</label>
+      <input
+        type="email"
+        [(ngModel)]="login.correo"
+        placeholder="Ingrese su correo">
+    </div>
+
+    <div class="campo">
+      <label>Contraseña</label>
+      <input
+        type="password"
+        [(ngModel)]="login.contrasena"
+        placeholder="Ingrese su contraseña">
+    </div>
+
+    @if(mensaje){
+      <p class="error">
+        {{ mensaje }}
+      </p>
+    }
+
+    <button
+      class="btn-login"
+      (click)="iniciarSesion()">
+      Ingresar
+    </button>
+
+  </div>
+
+</div>

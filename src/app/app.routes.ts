@@ -9,7 +9,7 @@ export const routes: Routes = [
     //Cuando  el usuario ingrese a la Url principal
     {
         path: '',
-        redirectTo: 'dependencias',
+        redirectTo: 'login',
         pathMatch: 'full',
     },
 

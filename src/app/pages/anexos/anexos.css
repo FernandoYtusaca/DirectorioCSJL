@@ -1,0 +1,111 @@
+.table-container{
+    width:100%;
+    padding:20px;
+}
+
+.header-actions{
+    display:flex;
+    justify-content:flex-end;
+}
+
+.btn-agregar{
+    background:#0b4f6c;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.btn-agregar:hover{
+    opacity:.85;
+}
+
+.dependencia-card{
+    background:white;
+    border-radius:12px;
+    margin-bottom:25px;
+    padding:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+.dependencia-header{
+    background:#0b4f6c;
+    color:white;
+    padding:15px 20px;
+    border-radius:10px 10px 0 0;
+}
+
+.dependencia-header h3{
+    margin:0;
+    font-size:18px;
+}
+
+.anexo-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+.anexo-table th{
+    background:#f1f5f7;
+    padding:12px;
+    text-align:left;
+}
+
+.anexo-table td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+.anexo-table tr:hover{
+    background:#f8f9fa;
+}
+
+.estado{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.estado-activo{
+    background:#d4edda;
+    color:#155724;
+}
+
+.estado-inactivo{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+.actions-cell{
+    display:flex;
+    gap:8px;
+}
+
+.action-btn{
+    width:35px;
+    height:35px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.view-btn{
+    background:#d9edf7;
+}
+
+.edit-btn{
+    background:#fff3cd;
+}
+
+.delete-btn{
+    background:#f8d7da;
+}
+
+.empty-message{
+    text-align:center;
+    padding:30px;
+    color:#777;
+}

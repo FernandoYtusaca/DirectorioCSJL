@@ -19,10 +19,7 @@ import { CoordinacionService } from '../../services/coordinacion.service';
 
 @Component({
   selector: 'app-filtros-dependencias',
-  imports: [
-    CommonModule,
-    FormsModule
-  ],
+  imports: [CommonModule,FormsModule],
   templateUrl: './filtros-dependencias.html',
   styleUrl: './filtros-dependencias.css'
 })
