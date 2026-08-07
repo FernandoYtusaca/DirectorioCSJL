@@ -92,15 +92,26 @@
                 Ubicación mapa
             </label>
             <input type="text" [(ngModel)]="formulario.mapa" name="mapa" placeholder="URL de Google Maps">
-            <div class="mapa-accion" *ngIf="formulario.mapa">
-                <a [href]="formulario.mapa" target="_blank" rel="noopener noreferrer" class="btn-mapa">
+            <div class="mapa-preview" *ngIf="formulario.mapa">
+                <div class="mapa-preview-contenido">
+                    <div class="mapa-icono">
+                        📍
+                    </div>
+                    <div class="mapa-info">
+                        <strong>
+                            Ubicación registrada
+                        </strong>
+                        <span>
+                            La sede tiene una ubicación registrada en Google Maps.
+                        </span>
+                    </div>
+                </div>
+                
+                <a class="btn-mapa" [href]="formulario.mapa" target="_blank" rel="noopener noreferrer">
                     📍 Ver ubicación en Google Maps
                 </a>
             </div>
         </div>
-
-
-        
 
     </div>
 
